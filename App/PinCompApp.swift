@@ -47,7 +47,11 @@ struct RootView: View {
         }
         .onChange(of: scenePhase) { _, phase in
             // Live Activities can end while the app is away (8-hour limit, Unpin on the island).
-            if phase == .active { model.pins.refreshState() }
+            if phase == .active {
+                model.pins.refreshState()
+                // The floating window is for use outside the app; coming back (e.g. tapping it) closes it.
+                floating.stop()
+            }
         }
         .onOpenURL { url in
             guard let id = PinLink.compID(from: url) else { return }

@@ -35,7 +35,7 @@ final class FloatingCompController {
         self.model = model
     }
 
-    /// Pins `comp` and starts the floating window. If the user leaves the app first, it starts automatically.
+    /// Pins `comp` and starts the floating window.
     func float(_ comp: Comp) async {
         errorMessage = nil
         guard isSupported else {
@@ -84,7 +84,8 @@ final class FloatingCompController {
             contentViewController: callController
         )
         let controller = AVPictureInPictureController(contentSource: source)
-        controller.canStartPictureInPictureAutomaticallyFromInline = true
+        // Only the Float button starts it; otherwise it would pop up every time the app is left.
+        controller.canStartPictureInPictureAutomaticallyFromInline = false
 
         let state = StateDelegate(
             onChange: { [weak self] active in self?.isActive = active },
@@ -132,6 +133,14 @@ private final class StateDelegate: NSObject, AVPictureInPictureControllerDelegat
     func pictureInPictureControllerDidStopPictureInPicture(_ controller: AVPictureInPictureController) {
         let onChange = onChange
         Task { @MainActor in onChange(false) }
+    }
+
+    /// Tapping the window returns to the app; the app then closes the window (see `RootView`).
+    func pictureInPictureController(
+        _ controller: AVPictureInPictureController,
+        restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void
+    ) {
+        completionHandler(true)
     }
 
     func pictureInPictureController(_ controller: AVPictureInPictureController, failedToStartPictureInPictureWithError error: any Error) {

@@ -31,6 +31,10 @@ struct FloatingBoardView: View {
         .background(Surface.background)
         .foregroundStyle(.white)
         .environment(\.colorScheme, .dark)
+        .onChange(of: model.pinnedCompID) { _, pinned in
+            // Unpin (Notification Center, Watch, Lock Screen or the app) also closes the window.
+            if pinned == nil { floating.stop() }
+        }
     }
 
     /// Laid out at the window's natural size, then scaled to whatever size the user resizes it to.
