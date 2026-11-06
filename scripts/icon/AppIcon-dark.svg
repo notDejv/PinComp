@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#A35CF2"/>
+      <stop offset="1" stop-color="#F9C238"/>
+    </linearGradient>
+  </defs>
+  
+  <polygon points="512.0,176.0 834.2,362.0 834.2,734.0 512.0,920.0 189.8,734.0 189.8,362.0" fill="none" stroke="url(#ring)" stroke-width="16" stroke-linejoin="round" opacity="0.55"/>
+  <polygon points="512.0,230.0 787.4,389.0 787.4,707.0 512.0,866.0 236.6,707.0 236.6,389.0" fill="#17171D" stroke="#26262F" stroke-width="10" stroke-linejoin="round"/>
+  <g transform="translate(-100 72)">
+  <ellipse cx="512" cy="590" rx="74" ry="22" fill="#000000" opacity="0.45"/>
+  <g transform="rotate(28 512 588)">
+    <rect x="504" y="508" width="16" height="84" rx="8" fill="#B9B9C4"/>
+    <ellipse cx="512" cy="514" rx="112" ry="30" fill="#C98F14"/>
+    <polygon points="400,502 456,352 568,352 624,502" fill="#F5B82E"/>
+    <ellipse cx="512" cy="502" rx="112" ry="30" fill="#F5B82E"/>
+    <circle cx="512" cy="298" r="104" fill="#F5B82E"/>
+    <path d="M 446 268 A 76 76 0 0 1 502 226" fill="none" stroke="#FFD866" stroke-width="22" stroke-linecap="round"/>
+  </g>
+  </g>
+</svg>
