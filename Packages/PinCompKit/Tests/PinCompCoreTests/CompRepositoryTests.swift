@@ -31,6 +31,17 @@ struct CompRepositoryTests {
         #expect(afterB.position == 1)
     }
 
+    @Test func previousWrapsAround() throws {
+        let a = try add("A")
+        _ = try add("B")
+        let c = try add("C")
+        let beforeA = try #require(try repository.comp(after: a.id, in: "TFTSet18", offset: -1))
+        #expect(beforeA.comp.id == c.id)
+        #expect(beforeA.position == 3)
+        let beforeMissing = try #require(try repository.comp(after: UUID(), in: "TFTSet18", offset: -1))
+        #expect(beforeMissing.comp.id == c.id)
+    }
+
     @Test func nextAfterMissingStartsAtFirst() throws {
         let a = try add("A")
         _ = try add("B")

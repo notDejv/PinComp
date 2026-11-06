@@ -57,14 +57,14 @@ struct SettingsView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         Label("Back Tap", systemImage: "hand.tap")
                             .font(.subheadline.weight(.semibold))
-                        Text("Double-tap the back of your iPhone to switch comps while playing. In the Shortcuts app, add PinComp's **Next comp** shortcut, then pick it in Settings → Accessibility → Touch → Back Tap → Double Tap.")
+                        Text("Double-tap the back of your iPhone for the next comp, triple-tap for the previous one. In the Shortcuts app, add PinComp's **Next comp** and **Previous comp** shortcuts, then pick them in Settings → Accessibility → Touch → Back Tap → Double Tap / Triple Tap.")
                             .font(.footnote)
                             .foregroundStyle(.secondary)
                     }
                     VStack(alignment: .leading, spacing: 8) {
                         Label("Control Center", systemImage: "switch.2")
                             .font(.subheadline.weight(.semibold))
-                        Text("Open Control Center, tap **+**, then **Add a Control** → PinComp → **Next comp**.")
+                        Text("Open Control Center, tap **+**, then **Add a Control** → PinComp → **Next comp** (and **Previous comp**).")
                             .font(.footnote)
                             .foregroundStyle(.secondary)
                     }

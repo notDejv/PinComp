@@ -10,7 +10,7 @@ struct PinCompApp: App {
 
     init() {
         FloatingCompController.shared.attach(to: AppModel.shared)
-        NextCompRouter.handler = { await AppActions.nextComp() }
+        NextCompRouter.handler = { offset in await AppActions.cycleComp(by: offset) }
     }
 
     var body: some Scene {

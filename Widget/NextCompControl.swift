@@ -15,3 +15,16 @@ struct NextCompControl: ControlWidget {
         .description("Shows the next saved comp in PinComp's floating window.")
     }
 }
+
+/// Control Center button: previous comp.
+struct PreviousCompControl: ControlWidget {
+    var body: some ControlWidgetConfiguration {
+        StaticControlConfiguration(kind: "com.dejvi.pincomp.previous-comp") {
+            ControlWidgetButton(action: PreviousCompIntent()) {
+                Label("Previous comp", systemImage: "backward.fill")
+            }
+        }
+        .displayName("Previous comp")
+        .description("Shows the previous saved comp in PinComp's floating window.")
+    }
+}

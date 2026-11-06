@@ -10,7 +10,7 @@ import SwiftUI
 /// the video-call flavor of Picture in Picture, which has no playback controls and shows a live view.
 ///
 /// Floating is independent of the Live Activity pin. "Next comp" (Back Tap, Control Center,
-/// Siri, or the Live Activity) cycles the floating board; see `AppActions.nextComp()`.
+/// Siri, or the Live Activity) cycles the floating board; see `AppActions.cycleComp(by:)`.
 @MainActor
 @Observable
 final class FloatingCompController {
@@ -125,13 +125,13 @@ final class FloatingCompController {
         if isActive { floatingCompID = compID }
     }
 
-    /// Shows the next current-set comp in list order, wrapping around.
-    func next() {
+    /// Shows the comp `offset` places away in list order (negative = previous), wrapping around.
+    func step(by offset: Int) {
         guard isActive, let model else { return }
         let comps = model.comps()
         guard !comps.isEmpty else { return }
-        let current = comps.firstIndex { $0.id == floatingCompID } ?? -1
-        floatingCompID = comps[(current + 1) % comps.count].id
+        let current = comps.firstIndex { $0.id == floatingCompID }
+        floatingCompID = comps[CompRepository.wrap(current, offset: offset, count: comps.count)].id
     }
 
     func stop() {

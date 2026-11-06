@@ -69,12 +69,19 @@ public final class CompRepository {
         return (index + 1, comps.count)
     }
 
-    /// The comp after `id` by `sortIndex`, wrapping around. Falls back to the first comp if `id` is gone.
-    public func comp(after id: UUID, in set: String) throws -> (comp: Comp, position: Int, total: Int)? {
+    /// The comp `offset` places after `id` by `sortIndex` (negative = before), wrapping around.
+    /// If `id` is gone, starts from the first comp (forward) or the last (backward).
+    public func comp(after id: UUID, in set: String, offset: Int = 1) throws -> (comp: Comp, position: Int, total: Int)? {
         let comps = try comps(in: set)
         guard !comps.isEmpty else { return nil }
-        let next = comps.firstIndex(where: { $0.id == id }).map { ($0 + 1) % comps.count } ?? 0
-        return (comps[next], next + 1, comps.count)
+        let index = Self.wrap(comps.firstIndex { $0.id == id }, offset: offset, count: comps.count)
+        return (comps[index], index + 1, comps.count)
+    }
+
+    /// Index `offset` places from `current` in a ring of `count`; a missing `current` sits just before the first.
+    public static func wrap(_ current: Int?, offset: Int, count: Int) -> Int {
+        let start = current ?? (offset > 0 ? -1 : 0)
+        return ((start + offset) % count + count) % count
     }
 
     // MARK: Writing

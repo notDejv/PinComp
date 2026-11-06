@@ -11,6 +11,8 @@ public protocol PinControlling: AnyObject {
     func unpin() async
     /// Moves to the next current-set comp by `sortIndex`, wrapping around.
     func next() async
+    /// Moves to the previous current-set comp, wrapping around.
+    func previous() async
     /// Re-syncs position/total after reorder, add or delete; unpins if the pinned comp is gone.
     func compsChanged() async
     /// Reads the system's activities, e.g. after the 8-hour limit ended one silently.
@@ -65,8 +67,16 @@ public final class PinService: PinControlling {
     }
 
     public func next() async {
+        await step(by: 1)
+    }
+
+    public func previous() async {
+        await step(by: -1)
+    }
+
+    private func step(by offset: Int) async {
         guard let running = runningState else { return refreshState() }
-        guard let next = try? repository.comp(after: running.compID, in: currentSet(running)) else { return }
+        guard let next = try? repository.comp(after: running.compID, in: currentSet(running), offset: offset) else { return }
         await update(PinAttributes.ContentState(comp: next.comp, position: next.position, total: next.total))
     }
 
@@ -119,6 +129,7 @@ public final class FakePinService: PinControlling {
     }
 
     public func next() async { calls.append("next") }
+    public func previous() async { calls.append("previous") }
     public func compsChanged() async { calls.append("compsChanged") }
     public func refreshState() {}
 }

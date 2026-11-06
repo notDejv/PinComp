@@ -10,6 +10,7 @@ struct PinCompWidgetBundle: WidgetBundle {
     var body: some Widget {
         PinLiveActivity()
         NextCompControl()
+        PreviousCompControl()
     }
 }
 
