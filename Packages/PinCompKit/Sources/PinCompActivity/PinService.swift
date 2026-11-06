@@ -50,7 +50,7 @@ public final class PinService: PinControlling {
     public func pin(_ comp: Comp) async throws {
         await endAll()
         let (position, total) = (try? repository.position(of: comp.id, in: comp.set)) ?? (1, 1)
-        let state = PinAttributes.ContentState(compID: comp.id, position: position, total: total)
+        let state = PinAttributes.ContentState(comp: comp, position: position, total: total)
         _ = try Activity.request(
             attributes: PinAttributes(),
             content: ActivityContent(state: state, staleDate: nil),
@@ -65,32 +65,29 @@ public final class PinService: PinControlling {
     }
 
     public func next() async {
-        guard let current = runningState?.compID else { return refreshState() }
-        guard let set = currentSet(fallbackCompID: current),
-              let next = try? repository.comp(after: current, in: set)
-        else { return }
-        await update(compID: next.comp.id, position: next.position, total: next.total)
+        guard let running = runningState else { return refreshState() }
+        guard let next = try? repository.comp(after: running.compID, in: currentSet(running)) else { return }
+        await update(PinAttributes.ContentState(comp: next.comp, position: next.position, total: next.total))
     }
 
     public func compsChanged() async {
-        guard let id = runningState?.compID else { return refreshState() }
-        guard let set = currentSet(fallbackCompID: id),
-              let place = try? repository.position(of: id, in: set)
-        else { return await unpin() }
-        await update(compID: id, position: place.position, total: place.total)
+        guard let running = runningState else { return refreshState() }
+        let comps = (try? repository.comps(in: currentSet(running))) ?? []
+        guard let index = comps.firstIndex(where: { $0.id == running.compID }) else { return await unpin() }
+        // Also picks up renames and replaced codes.
+        await update(PinAttributes.ContentState(comp: comps[index], position: index + 1, total: comps.count))
     }
 
     /// The published latest set; before the catalog exists, the pinned comp's own set.
-    private func currentSet(fallbackCompID: UUID) -> String? {
-        cache.loadIndex()?.latest ?? (try? repository.comp(id: fallbackCompID))?.set
+    private func currentSet(_ running: PinAttributes.ContentState) -> String {
+        cache.loadIndex()?.latest ?? running.set
     }
 
-    private func update(compID: UUID, position: Int, total: Int) async {
-        let state = PinAttributes.ContentState(compID: compID, position: position, total: total)
+    private func update(_ state: PinAttributes.ContentState) async {
         for activity in Activity<PinAttributes>.activities where Self.isRunning(activity) && activity.content.state != state {
             await activity.update(ActivityContent(state: state, staleDate: nil))
         }
-        pinnedCompID = compID
+        pinnedCompID = state.compID
     }
 
     private func endAll() async {

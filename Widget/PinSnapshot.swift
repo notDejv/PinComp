@@ -1,9 +1,11 @@
 import Foundation
 import PinCompActivity
 import PinCompCore
-import SwiftData
 
-/// What the island shows for one content state, read from the shared App Group store and catalog cache.
+/// What the island shows for one content state.
+///
+/// Built only from the content state and the App Group catalog cache (JSON + icon files).
+/// The widget deliberately doesn't open the SwiftData store.
 struct PinSnapshot {
     let compID: UUID
     let name: String
@@ -24,46 +26,38 @@ struct PinSnapshot {
         featured(limit).enumerated().map { CompSlot(index: $0.offset, championID: $0.element.id, champion: $0.element) }
     }
 
-    @MainActor
-    static func load(_ state: PinAttributes.ContentState) -> PinSnapshot? {
-        if state.compID == previewID { return preview(state) }
-        guard let container = WidgetStore.container else { return nil }
-        // A fresh context per render so changes saved by the app are always visible.
-        let context = ModelContext(container)
-        let id = state.compID
-        var descriptor = FetchDescriptor<Comp>(predicate: #Predicate { $0.id == id })
-        descriptor.fetchLimit = 1
-        guard let comp = try? context.fetch(descriptor).first else { return nil }
-        let champions = CatalogCache.shared.loadCatalog(set: comp.set)?.championsByID ?? [:]
-        return PinSnapshot(
-            compID: comp.id,
-            name: comp.name,
-            set: comp.set,
-            slots: comp.slots(in: champions),
-            position: state.position,
-            total: state.total
-        )
+    init(_ state: PinAttributes.ContentState, catalog: [String: Champion]) {
+        compID = state.compID
+        name = state.name
+        set = state.set
+        slots = state.championIDs.enumerated().map {
+            CompSlot(index: $0.offset, championID: $0.element, champion: catalog[$0.element])
+        }
+        position = state.position
+        total = state.total
+    }
+
+    static func load(_ state: PinAttributes.ContentState) -> PinSnapshot {
+        let catalog = state.set == SampleCatalog.set18.set && state.compID == previewID
+            ? SampleCatalog.set18
+            : CatalogCache.shared.loadCatalog(set: state.set)
+        return PinSnapshot(state, catalog: catalog?.championsByID ?? [:])
     }
 
     // MARK: Previews
 
     static let previewID = UUID(uuidString: "00000000-0000-0000-0000-00000000C0DE")!
 
-    static func preview(_ state: PinAttributes.ContentState) -> PinSnapshot {
+    static func previewState(position: Int, total: Int) -> PinAttributes.ContentState {
         let code = try! TeamPlannerCode(parsing: SampleCatalog.userCode)
         let resolution = Resolution(code: code, catalog: SampleCatalog.set18)
-        return PinSnapshot(
+        return PinAttributes.ContentState(
             compID: previewID,
             name: Comp.defaultName(for: resolution.champions),
             set: code.set,
-            slots: resolution.compSlots,
-            position: state.position,
-            total: state.total
+            championIDs: resolution.championIDs,
+            position: position,
+            total: total
         )
     }
-}
-
-@MainActor
-enum WidgetStore {
-    static let container: ModelContainer? = try? CompRepository.makeContainer()
 }

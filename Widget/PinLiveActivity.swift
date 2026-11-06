@@ -23,30 +23,28 @@ struct PinLiveActivity: Widget {
             let snapshot = PinSnapshot.load(context.state)
             return DynamicIsland {
                 DynamicIslandExpandedRegion(.leading) {
-                    Text(snapshot?.name ?? "PinComp")
+                    Text(snapshot.name)
                         .font(.headline)
                         .lineLimit(1)
                         .padding(.leading, 6)
                 }
                 DynamicIslandExpandedRegion(.trailing) {
-                    if let snapshot {
-                        Text(snapshot.positionText)
-                            .font(.headline.monospacedDigit())
-                            .foregroundStyle(.secondary)
-                            .padding(.trailing, 6)
-                    }
+                    Text(snapshot.positionText)
+                        .font(.headline.monospacedDigit())
+                        .foregroundStyle(.secondary)
+                        .padding(.trailing, 6)
                 }
                 DynamicIslandExpandedRegion(.bottom) {
                     PinExpandedBody(snapshot: snapshot)
                 }
             } compactLeading: {
-                CompactIcon(champion: snapshot?.featured(2).first, set: snapshot?.set)
+                CompactIcon(champion: snapshot.featured(2).first, set: snapshot.set)
             } compactTrailing: {
-                CompactIcon(champion: snapshot.flatMap { $0.featured(2).dropFirst().first }, set: snapshot?.set)
+                CompactIcon(champion: snapshot.featured(2).dropFirst().first, set: snapshot.set)
             } minimal: {
-                CompactIcon(champion: snapshot?.featured(1).first, set: snapshot?.set)
+                CompactIcon(champion: snapshot.featured(1).first, set: snapshot.set)
             }
-            .keylineTint(snapshot?.featured(1).first.map { CostColor.color(for: $0.cost) })
+            .keylineTint(snapshot.featured(1).first.map { CostColor.color(for: $0.cost) })
             .widgetURL(PinLink.url(for: context.state.compID))
         }
     }
@@ -56,10 +54,10 @@ struct PinLiveActivity: Widget {
 
 private struct CompactIcon: View {
     let champion: Champion?
-    let set: String?
+    let set: String
 
     var body: some View {
-        if let champion, let set {
+        if let champion {
             ChampionIcon(champion, set: set, size: 24)
         } else {
             Image(systemName: "pin.fill")
@@ -72,20 +70,14 @@ private struct CompactIcon: View {
 
 /// Board plus the Next / Unpin buttons; shared by the expanded island and the Lock Screen.
 private struct PinExpandedBody: View {
-    let snapshot: PinSnapshot?
+    let snapshot: PinSnapshot
     @Environment(\.isDynamicIslandLimitedInWidth) private var limitedInWidth
 
     var body: some View {
         VStack(spacing: limitedInWidth ? 8 : 12) {
-            if let snapshot {
-                board(snapshot)
-                    .frame(maxWidth: .infinity)
-            } else {
-                Text("This comp was removed.")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-            }
-            PinButtons(canCycle: snapshot?.canCycle ?? false, compact: limitedInWidth)
+            board(snapshot)
+                .frame(maxWidth: .infinity)
+            PinButtons(canCycle: snapshot.canCycle, compact: limitedInWidth)
         }
     }
 
@@ -128,20 +120,18 @@ private struct PinButtons: View {
 }
 
 private struct PinLockScreenView: View {
-    let snapshot: PinSnapshot?
+    let snapshot: PinSnapshot
 
     var body: some View {
         VStack(spacing: 12) {
             HStack {
-                Text(snapshot?.name ?? "PinComp")
+                Text(snapshot.name)
                     .font(.headline)
                     .lineLimit(1)
                 Spacer()
-                if let snapshot {
-                    Text(snapshot.positionText)
-                        .font(.headline.monospacedDigit())
-                        .foregroundStyle(.secondary)
-                }
+                Text(snapshot.positionText)
+                    .font(.headline.monospacedDigit())
+                    .foregroundStyle(.secondary)
             }
             PinExpandedBody(snapshot: snapshot)
         }
@@ -154,8 +144,8 @@ private struct PinLockScreenView: View {
 // MARK: Previews
 
 private extension PinAttributes.ContentState {
-    static let one = PinAttributes.ContentState(compID: PinSnapshot.previewID, position: 1, total: 1)
-    static let several = PinAttributes.ContentState(compID: PinSnapshot.previewID, position: 2, total: 5)
+    static let one = PinSnapshot.previewState(position: 1, total: 1)
+    static let several = PinSnapshot.previewState(position: 2, total: 5)
 }
 
 #Preview("Compact", as: .dynamicIsland(.compact), using: PinAttributes()) {

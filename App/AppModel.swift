@@ -145,6 +145,7 @@ final class AppModel {
     func rename(_ comp: Comp, to name: String) {
         comp.name = Self.cleanName(name, fallback: comp.name)
         try? repository.save()
+        Task { await pins.compsChanged() }
     }
 
     func replaceCode(of comp: Comp, rawCode: String, resolution: Resolution) {
@@ -152,6 +153,7 @@ final class AppModel {
         comp.set = resolution.set
         comp.championIDs = Array(resolution.championIDs.prefix(Comp.maxChampions))
         try? repository.save()
+        Task { await pins.compsChanged() }
     }
 
     func delete(_ comp: Comp) async {
