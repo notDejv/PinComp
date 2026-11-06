@@ -113,7 +113,8 @@ private struct PinExpandedBody: View {
     @Environment(\.isDynamicIslandLimitedInWidth) private var limitedInWidth
 
     var body: some View {
-        VStack(spacing: limitedInWidth ? 8 : 12) {
+        // Lock Screen and expanded island are capped at ~160 pt tall: one row of icons, short buttons.
+        VStack(spacing: limitedInWidth ? 6 : 8) {
             board(snapshot)
                 .frame(maxWidth: .infinity)
             PinButtons(canCycle: snapshot.canCycle, compact: limitedInWidth)
@@ -125,7 +126,7 @@ private struct PinExpandedBody: View {
             // Landscape: one row of the five highest-cost units.
             BoardView(slots: snapshot.featuredSlots(5), set: snapshot.set, style: .islandCompact)
         } else {
-            BoardView(slots: snapshot.slots, set: snapshot.set, style: .island)
+            BoardView(slots: snapshot.slots, set: snapshot.set, style: .liveActivity)
         }
     }
 }
@@ -140,14 +141,14 @@ private struct PinButtons: View {
             if canCycle {
                 Button(intent: NextCompIntent()) {
                     Label("Next comp", systemImage: "forward.fill")
-                        .frame(maxWidth: .infinity, minHeight: compact ? 36 : 44)
+                        .frame(maxWidth: .infinity, minHeight: compact ? 30 : 36)
                 }
                 .tint(CostColor.color(for: 5))
                 .foregroundStyle(.black)
             }
             Button(intent: UnpinIntent()) {
                 Label("Unpin", systemImage: "pin.slash")
-                    .frame(maxWidth: .infinity, minHeight: compact ? 36 : 44)
+                    .frame(maxWidth: .infinity, minHeight: compact ? 30 : 36)
             }
             .tint(Surface.raised)
             .foregroundStyle(.white)
@@ -162,19 +163,20 @@ private struct PinLockScreenView: View {
     let snapshot: PinSnapshot
 
     var body: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 8) {
             HStack {
                 Text(snapshot.name)
-                    .font(.headline)
+                    .font(.subheadline.weight(.semibold))
                     .lineLimit(1)
                 Spacer()
                 Text(snapshot.positionText)
-                    .font(.headline.monospacedDigit())
+                    .font(.subheadline.weight(.semibold).monospacedDigit())
                     .foregroundStyle(.secondary)
             }
             PinExpandedBody(snapshot: snapshot)
         }
-        .padding(16)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
         .foregroundStyle(.white)
         .environment(\.colorScheme, .dark)
     }

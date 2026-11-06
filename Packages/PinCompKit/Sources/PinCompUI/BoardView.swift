@@ -28,6 +28,8 @@ public struct BoardView: View {
         public static let detail = Style(iconSize: 56, spacing: 10, showsNames: true)
         /// Expanded island: 120 px island copies (40 pt @3x max).
         public static let island = Style(iconSize: 34, spacing: 6, iconVariant: .island(.expanded))
+        /// Lock Screen / Notification Center and expanded island: up to 10 in one row (fits ~330 pt).
+        public static let liveActivity = Style(iconSize: 28, spacing: 4, columns: 10, iconVariant: .island(.expanded))
         /// Landscape island (`isDynamicIslandLimitedInWidth`).
         public static let islandCompact = Style(iconSize: 26, spacing: 4, iconVariant: .island(.expanded))
         /// Apple Watch Smart Stack: one row of five.
