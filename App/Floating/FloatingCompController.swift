@@ -14,7 +14,7 @@ import SwiftUI
 @Observable
 final class FloatingCompController {
     /// The window's natural size; the user can resize it and the content scales.
-    static let contentSize = CGSize(width: 320, height: 180)
+    static let contentSize = CGSize(width: 320, height: 210)
 
     private(set) var isActive = false
     private(set) var floatingCompID: UUID?

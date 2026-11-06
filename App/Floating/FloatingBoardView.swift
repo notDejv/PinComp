@@ -58,8 +58,8 @@ struct FloatingBoardView: View {
 }
 
 extension BoardView.Style {
-    /// Five 50 pt icons per row fill the 320 × 180 pt window.
-    static let floating = BoardView.Style(iconSize: 50, spacing: 8)
+    /// Five 46 pt icons with names per row fit the 320 × 210 pt window.
+    static let floating = BoardView.Style(iconSize: 46, spacing: 6, showsNames: true)
 }
 
 private extension View {
