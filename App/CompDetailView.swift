@@ -29,9 +29,7 @@ private struct CompDetailContent: View {
     @State private var draftName = ""
     @State private var replacing = false
     @State private var confirmDelete = false
-    @State private var pinFeedback = 0
 
-    private var isPinned: Bool { model.pinnedCompID == comp.id }
     private var champions: [String: Champion] { model.champions(in: comp.set) }
 
     var body: some View {
@@ -43,14 +41,8 @@ private struct CompDetailContent: View {
                     .background(Surface.card, in: .rect(cornerRadius: 20))
 
                 VStack(spacing: 12) {
-                    Button(isPinned ? "Unpin" : "Pin to Dynamic Island", systemImage: isPinned ? "pin.slash" : "pin.fill") {
-                        pinFeedback += 1
-                        Task { await model.togglePin(comp) }
-                    }
-                    .buttonStyle(SolidButtonStyle(
-                        fill: isPinned ? Surface.raised : CostColor.color(for: 5),
-                        foreground: isPinned ? .primary : .black
-                    ))
+                    FloatOption(comp: comp)
+                    PinOption(comp: comp)
 
                     HStack(spacing: 12) {
                         Button("Rename", systemImage: "pencil") {
@@ -60,8 +52,7 @@ private struct CompDetailContent: View {
                         Button("Replace code", systemImage: "doc.on.clipboard") { replacing = true }
                     }
                     .buttonStyle(SolidButtonStyle())
-
-                    FloatingSection(comp: comp)
+                    .padding(.top, 8)
 
                     Button("Delete", systemImage: "trash", role: .destructive) { confirmDelete = true }
                         .buttonStyle(SolidButtonStyle(foreground: .red))
@@ -73,7 +64,6 @@ private struct CompDetailContent: View {
         .navigationTitle(comp.name)
         .navigationBarTitleDisplayMode(.inline)
         .solidNavigationBar()
-        .sensoryFeedback(.impact, trigger: pinFeedback)
         .alert("Rename comp", isPresented: $renaming) {
             TextField("Name", text: $draftName)
             Button("Cancel", role: .cancel) {}
@@ -142,28 +132,49 @@ private struct ReplaceCodeView: View {
     }
 }
 
-/// Experimental floating window (Picture in Picture) for playing TFT, where the Dynamic Island is hidden.
-private struct FloatingSection: View {
+/// The main action: the board in a floating window over TFT (Picture in Picture).
+private struct FloatOption: View {
     @Environment(FloatingCompController.self) private var floating
     let comp: Comp
-
-    private var isFloatingThis: Bool { floating.isActive }
+    @State private var feedback = 0
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Button(
-                isFloatingThis ? "Stop floating" : "Float over game (beta)",
-                systemImage: isFloatingThis ? "pip.exit" : "pip.enter"
-            ) {
-                if isFloatingThis { floating.stop() } else { Task { await floating.float(comp) } }
+            Button("Float over game", systemImage: "pip.enter") {
+                feedback += 1
+                Task { await floating.float(comp) }
             }
-            .buttonStyle(SolidButtonStyle())
-            Text("Pins this comp and shows it in a floating window over TFT. \"Next comp\" in Notification Center changes it.")
+            .buttonStyle(SolidButtonStyle(fill: CostColor.color(for: 5), foreground: .black))
+            .sensoryFeedback(.impact, trigger: feedback)
+            Text("Shows the board in a floating window over TFT. Tap the window to close it.")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
             if let error = floating.errorMessage {
                 Text(error).font(.footnote).foregroundStyle(.orange)
             }
+        }
+    }
+}
+
+/// Secondary: the Live Activity (Notification Center, Lock Screen, Apple Watch).
+private struct PinOption: View {
+    @Environment(AppModel.self) private var model
+    let comp: Comp
+    @State private var feedback = 0
+
+    private var isPinned: Bool { model.pinnedCompID == comp.id }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Button(isPinned ? "Unpin Live Activity" : "Pin as Live Activity", systemImage: isPinned ? "pin.slash" : "pin") {
+                feedback += 1
+                Task { await model.togglePin(comp) }
+            }
+            .buttonStyle(SolidButtonStyle())
+            .sensoryFeedback(.impact, trigger: feedback)
+            Text("Shows in Notification Center and on Apple Watch. \"Next comp\" there also changes the floating window.")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
         }
     }
 }

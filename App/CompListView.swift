@@ -5,6 +5,7 @@ import SwiftUI
 
 struct CompListView: View {
     @Environment(AppModel.self) private var model
+    @Environment(FloatingCompController.self) private var floating
     @Query(sort: [SortDescriptor(\Comp.sortIndex), SortDescriptor(\Comp.createdAt)]) private var allComps: [Comp]
 
     @State private var addRequest: AddRequest?
@@ -72,6 +73,15 @@ struct CompListView: View {
         }
     }
 
+    private func pinAction(_ comp: Comp) -> some View {
+        let pinned = comp.id == model.pinnedCompID
+        return Button(pinned ? "Unpin" : "Pin", systemImage: pinned ? "pin.slash" : "pin") {
+            pinFeedback += 1
+            Task { await model.togglePin(comp) }
+        }
+        .tint(CostColor.color(for: 4))
+    }
+
     private var list: some View {
         List {
             ForEach(comps) { comp in
@@ -82,8 +92,18 @@ struct CompListView: View {
                         isPinned: comp.id == model.pinnedCompID
                     ) {
                         pinFeedback += 1
-                        Task { await model.togglePin(comp) }
+                        Task { await floating.float(comp) }
                     }
+                }
+                .swipeActions(edge: .leading) {
+                    pinAction(comp)
+                }
+                .contextMenu {
+                    Button("Float over game", systemImage: "pip.enter") {
+                        pinFeedback += 1
+                        Task { await floating.float(comp) }
+                    }
+                    pinAction(comp)
                 }
                 .listRowBackground(Color.clear)
                 .listRowSeparator(.hidden)
@@ -107,7 +127,7 @@ struct CompCard: View {
     let comp: Comp
     let champions: [String: Champion]
     let isPinned: Bool
-    let togglePin: () -> Void
+    let float: () -> Void
 
     private var tint: Color {
         comp.featuredChampions(limit: 1, in: champions).first.map { CostColor.color(for: $0.cost) } ?? CostColor.unknown
@@ -119,11 +139,17 @@ struct CompCard: View {
                 Text(comp.name)
                     .font(.headline)
                     .lineLimit(1)
+                if isPinned {
+                    Image(systemName: "pin.fill")
+                        .font(.caption)
+                        .foregroundStyle(tint)
+                        .accessibilityLabel("Pinned")
+                }
                 Spacer()
-                Button(isPinned ? "Unpin" : "Pin", systemImage: isPinned ? "pin.fill" : "pin", action: togglePin)
+                Button("Float over game", systemImage: "pip.enter", action: float)
                     .labelStyle(.iconOnly)
                     .font(.title3)
-                    .foregroundStyle(isPinned ? tint : .secondary)
+                    .foregroundStyle(CostColor.color(for: 5))
                     .buttonStyle(.plain)
                     .frame(width: 44, height: 44)
                     .contentShape(.rect)
@@ -191,6 +217,7 @@ struct EmptyCompsView: View {
             VStack(alignment: .leading, spacing: 10) {
                 Text("1. Tap **Copy team code** on any comp guide")
                 Text("2. Paste it here")
+                Text("3. Tap **Float**, then open TFT")
             }
             .font(.callout)
             .foregroundStyle(.secondary)

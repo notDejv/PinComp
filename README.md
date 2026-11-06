@@ -1,8 +1,11 @@
 # PinComp
 
 Personal iOS app for Teamfight Tactics players. Paste a TFT **Team Planner code**
-(from TFT Academy, MetaTFT, the in-game planner, …), see the board, and pin the comp
-to the Dynamic Island as a Live Activity so you can glance at it while playing TFT mobile.
+(from TFT Academy, MetaTFT, the in-game planner, …), see the board, and **float it over the game**
+in a Picture in Picture window so you can glance at it while playing TFT mobile.
+
+The comp can also be pinned as a Live Activity (Notification Center, Lock Screen, Apple Watch).
+TFT runs full screen, which hides the Dynamic Island, so the floating window is the main feature.
 
 ## Data
 

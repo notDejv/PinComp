@@ -3,8 +3,7 @@ import PinCompUI
 import SwiftData
 import SwiftUI
 
-/// Live content of the floating window. Shows the pinned comp, so "Next comp" in Notification Center
-/// (or the Live Activity on the Watch / Lock Screen) also changes what's floating.
+/// Live content of the floating window. Follows the Live Activity's "Next comp" while a comp is pinned.
 struct FloatingBoardView: View {
     @Environment(AppModel.self) private var model
     @Environment(FloatingCompController.self) private var floating
@@ -15,14 +14,14 @@ struct FloatingBoardView: View {
         return allComps.filter { $0.set == set }
     }
 
-    private var shownID: UUID? { model.pinnedCompID ?? floating.floatingCompID }
+    private var shownID: UUID? { floating.floatingCompID }
 
     var body: some View {
         Group {
             if let id = shownID, let index = comps.firstIndex(where: { $0.id == id }) {
                 board(comps[index], position: "\(index + 1)/\(comps.count)")
             } else {
-                Text("No comp pinned")
+                Text("Comp not found")
                     .font(.headline)
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -32,8 +31,7 @@ struct FloatingBoardView: View {
         .foregroundStyle(.white)
         .environment(\.colorScheme, .dark)
         .onChange(of: model.pinnedCompID) { _, pinned in
-            // Unpin (Notification Center, Watch, Lock Screen or the app) also closes the window.
-            if pinned == nil { floating.stop() }
+            if let pinned { floating.follow(pinned) }
         }
     }
 

@@ -8,8 +8,8 @@ import SwiftUI
 /// Experimental: floats the board over full-screen apps (TFT hides the Dynamic Island) using
 /// the video-call flavor of Picture in Picture, which has no playback controls and shows a live view.
 ///
-/// Floating a comp also pins it; the window always shows the pinned comp, so the Live Activity's
-/// "Next comp" (Notification Center, Watch, Lock Screen) changes the floating board too.
+/// Floating is independent of the Live Activity pin. While both are on, the Live Activity's
+/// "Next comp" (Notification Center, Watch, Lock Screen) also changes the floating board.
 @MainActor
 @Observable
 final class FloatingCompController {
@@ -35,7 +35,7 @@ final class FloatingCompController {
         self.model = model
     }
 
-    /// Pins `comp` and starts the floating window.
+    /// Starts the floating window with `comp`, or switches the open window to it.
     func float(_ comp: Comp) async {
         errorMessage = nil
         guard isSupported else {
@@ -44,7 +44,7 @@ final class FloatingCompController {
         }
         guard let model else { return }
         floatingCompID = comp.id
-        if model.pinnedCompID != comp.id { await model.togglePin(comp) }
+        if isActive { return }
         activateAudioSession()
         guard let controller = makeControllerIfNeeded(model: model) else { return }
         if controller.isPictureInPicturePossible {
@@ -52,6 +52,11 @@ final class FloatingCompController {
         } else {
             startWhenPossible = true
         }
+    }
+
+    /// Follows the pinned comp when it changes (e.g. "Next comp" from Notification Center).
+    func follow(_ compID: UUID) {
+        if isActive { floatingCompID = compID }
     }
 
     func stop() {
