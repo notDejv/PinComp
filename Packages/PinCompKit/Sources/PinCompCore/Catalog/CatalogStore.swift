@@ -57,7 +57,12 @@ public actor CatalogStore: CatalogProviding {
     }
 
     public func catalog(for set: String) async throws -> SetCatalog {
-        if let cached = cache.loadCatalog(set: set) { return cached }
+        if let cached = cache.loadCatalog(set: set) {
+            // Fills in missing island copies (e.g. caches written before they existed), offline when possible.
+            let missing = cached.champions.filter { !cache.hasAllIcons(set: set, championID: $0.id) }
+            if !missing.isEmpty { _ = await downloadIcons(missing, set: set, redownload: false) }
+            return cached
+        }
         // Missing icons show as placeholders and are retried on the next refresh.
         return try await downloadCatalog(set: set).catalog
     }
@@ -93,15 +98,16 @@ public actor CatalogStore: CatalogProviding {
         let previous = cache.loadCatalog(set: set)
         let changed = previous?.generatedAt != catalog.generatedAt
 
-        let needed = catalog.champions.filter { changed || cache.cachedIcon(set: set, championID: $0.id) == nil }
-        let failures = await downloadIcons(needed, set: set)
+        let needed = catalog.champions.filter { changed || !cache.hasAllIcons(set: set, championID: $0.id) }
+        let failures = await downloadIcons(needed, set: set, redownload: changed)
 
         try cache.write(data, to: cache.catalogURL(set: set))
         return (catalog, failures)
     }
 
     /// Returns the number of icons that failed.
-    private func downloadIcons(_ champions: [Champion], set: String) async -> Int {
+    /// Saves the full icon plus the island copies. Reuses a cached full icon unless `redownload`.
+    private func downloadIcons(_ champions: [Champion], set: String, redownload: Bool) async -> Int {
         let fetch = fetch
         let cache = cache
         let maxConcurrent = 6
@@ -112,8 +118,18 @@ public actor CatalogStore: CatalogProviding {
                 guard let champion = pending.popFirst() else { return }
                 group.addTask {
                     do {
-                        let png = try await fetch(champion.iconURL)
-                        try cache.write(png, to: cache.iconURL(set: set, championID: champion.id))
+                        let fullURL = cache.iconURL(set: set, championID: champion.id)
+                        let png: Data
+                        if !redownload, let cached = try? Data(contentsOf: fullURL) {
+                            png = cached
+                        } else {
+                            png = try await fetch(champion.iconURL)
+                            try cache.write(png, to: fullURL)
+                        }
+                        for size in IslandIconSize.allCases {
+                            let small = try IconResizer.png(from: png, pixels: size.pixels)
+                            try cache.write(small, to: cache.islandIconURL(set: set, championID: champion.id, size: size))
+                        }
                         return true
                     } catch {
                         return false

@@ -58,7 +58,7 @@ private struct CompactIcon: View {
 
     var body: some View {
         if let champion {
-            ChampionIcon(champion, set: set, size: 24)
+            ChampionIcon(champion, set: set, size: 24, variant: .island(.compact))
         } else {
             Image(systemName: "pin.fill")
                 .foregroundStyle(CostColor.color(for: 5))

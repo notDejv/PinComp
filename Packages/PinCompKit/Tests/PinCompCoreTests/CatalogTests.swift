@@ -1,5 +1,8 @@
+import CoreGraphics
 import Foundation
+import ImageIO
 import Testing
+import UniformTypeIdentifiers
 @testable import PinCompCore
 
 @Suite("Catalog")
@@ -45,6 +48,21 @@ struct CatalogStoreTests {
         func setGeneratedAt(_ value: String) { lock.withLock { generatedAt = value } }
         func setFailingIcons(_ value: Bool) { lock.withLock { failingIcons = value } }
 
+        /// A real 256 px PNG so the island copies can be generated.
+        static let png: Data = {
+            let context = CGContext(
+                data: nil, width: 256, height: 256, bitsPerComponent: 8, bytesPerRow: 0,
+                space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+            )!
+            context.setFillColor(CGColor(red: 1, green: 0.7, blue: 0.2, alpha: 1))
+            context.fill(CGRect(x: 0, y: 0, width: 256, height: 256))
+            let output = NSMutableData()
+            let destination = CGImageDestinationCreateWithData(output, UTType.png.identifier as CFString, 1, nil)!
+            CGImageDestinationAddImage(destination, context.makeImage()!, nil)
+            CGImageDestinationFinalize(destination)
+            return output as Data
+        }()
+
         func fetch(_ url: URL) throws -> Data {
             try lock.withLock {
                 switch url.lastPathComponent {
@@ -56,7 +74,7 @@ struct CatalogStoreTests {
                 default:
                     iconHits += 1
                     if failingIcons { throw URLError(.notConnectedToInternet) }
-                    return Data("png".utf8)
+                    return Self.png
                 }
             }
         }
@@ -78,6 +96,31 @@ struct CatalogStoreTests {
         #expect(SampleCatalog.set18.champions.allSatisfy { cache.cachedIcon(set: "TFTSet18", championID: $0.id) != nil })
         #expect(server.icons == SampleCatalog.set18.champions.count)
         #expect(await store.lastUpdated() != nil)
+    }
+
+    @Test func savesIslandSizedCopies() async throws {
+        let server = Server()
+        let (store, cache) = makeStore(server)
+        try await store.refresh()
+        let id = try #require(SampleCatalog.set18.champions.first?.id)
+        for size in IslandIconSize.allCases {
+            let url = try #require(cache.cachedIslandIcon(set: "TFTSet18", championID: id, size: size))
+            let source = try #require(CGImageSourceCreateWithURL(url as CFURL, nil))
+            let image = try #require(CGImageSourceCreateImageAtIndex(source, 0, nil))
+            #expect(image.width == size.pixels && image.height == size.pixels)
+        }
+    }
+
+    @Test func missingIslandCopiesAreRebuiltOffline() async throws {
+        let server = Server()
+        let (store, cache) = makeStore(server)
+        try await store.refresh()
+        let id = try #require(SampleCatalog.set18.champions.first?.id)
+        try FileManager.default.removeItem(at: cache.islandIconURL(set: "TFTSet18", championID: id, size: .compact))
+
+        let offline = CatalogStore(cache: cache, fetch: { _ in throw URLError(.notConnectedToInternet) })
+        _ = try await offline.catalog(for: "TFTSet18")
+        #expect(cache.cachedIslandIcon(set: "TFTSet18", championID: id, size: .compact) != nil)
     }
 
     @Test func iconsRedownloadOnlyWhenGeneratedAtChanges() async throws {

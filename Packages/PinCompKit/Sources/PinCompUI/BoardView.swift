@@ -8,19 +8,28 @@ public struct BoardView: View {
         public var spacing: CGFloat
         public var columns: Int
         public var showsNames: Bool
+        public var iconVariant: ChampionIcon.Variant
 
-        public init(iconSize: CGFloat, spacing: CGFloat, columns: Int = 5, showsNames: Bool = false) {
+        public init(
+            iconSize: CGFloat,
+            spacing: CGFloat,
+            columns: Int = 5,
+            showsNames: Bool = false,
+            iconVariant: ChampionIcon.Variant = .full
+        ) {
             self.iconSize = iconSize
             self.spacing = spacing
             self.columns = columns
             self.showsNames = showsNames
+            self.iconVariant = iconVariant
         }
 
         public static let card = Style(iconSize: 30, spacing: 5)
         public static let detail = Style(iconSize: 56, spacing: 10, showsNames: true)
-        public static let island = Style(iconSize: 34, spacing: 6)
+        /// Expanded island: 120 px island copies (40 pt @3x max).
+        public static let island = Style(iconSize: 34, spacing: 6, iconVariant: .island(.expanded))
         /// Landscape island (`isDynamicIslandLimitedInWidth`).
-        public static let islandCompact = Style(iconSize: 26, spacing: 4)
+        public static let islandCompact = Style(iconSize: 26, spacing: 4, iconVariant: .island(.expanded))
     }
 
     let slots: [CompSlot]
@@ -55,7 +64,7 @@ public struct BoardView: View {
     @ViewBuilder private func cell(_ slot: CompSlot) -> some View {
         if style.showsNames {
             VStack(spacing: 4) {
-                ChampionIcon(slot.champion, set: set, size: style.iconSize)
+                ChampionIcon(slot.champion, set: set, size: style.iconSize, variant: style.iconVariant)
                 Text(slot.champion?.name ?? "?")
                     .font(.caption2.weight(.medium))
                     .foregroundStyle(.secondary)
@@ -64,7 +73,7 @@ public struct BoardView: View {
                     .frame(width: style.iconSize + style.spacing)
             }
         } else {
-            ChampionIcon(slot.champion, set: set, size: style.iconSize)
+            ChampionIcon(slot.champion, set: set, size: style.iconSize, variant: style.iconVariant)
         }
     }
 }

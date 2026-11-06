@@ -43,8 +43,30 @@ public struct CatalogCache: Sendable {
 
     /// Local icon file if it has been downloaded.
     public func cachedIcon(set: String, championID: String) -> URL? {
-        let url = iconURL(set: set, championID: championID)
-        return FileManager.default.fileExists(atPath: url.path(percentEncoded: false)) ? url : nil
+        existing(iconURL(set: set, championID: championID))
+    }
+
+    /// `Catalog/<set>/island/<id>@compact.png` and `@expanded.png`: small copies for the Live Activity,
+    /// which may fail to start with images larger than their presentation size.
+    public func islandIconURL(set: String, championID: String, size: IslandIconSize) -> URL {
+        let safe = championID.replacingOccurrences(of: "/", with: "_")
+        return root.appending(path: set, directoryHint: .isDirectory)
+            .appending(path: "island", directoryHint: .isDirectory)
+            .appending(path: "\(safe)@\(size.rawValue).png")
+    }
+
+    public func cachedIslandIcon(set: String, championID: String, size: IslandIconSize) -> URL? {
+        existing(islandIconURL(set: set, championID: championID, size: size))
+    }
+
+    /// True when the full icon and both island copies are on disk.
+    func hasAllIcons(set: String, championID: String) -> Bool {
+        cachedIcon(set: set, championID: championID) != nil
+            && IslandIconSize.allCases.allSatisfy { cachedIslandIcon(set: set, championID: championID, size: $0) != nil }
+    }
+
+    private func existing(_ url: URL) -> URL? {
+        FileManager.default.fileExists(atPath: url.path(percentEncoded: false)) ? url : nil
     }
 
     public func loadIndex() -> CatalogIndex? {
