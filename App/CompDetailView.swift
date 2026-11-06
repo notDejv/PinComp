@@ -61,6 +61,8 @@ private struct CompDetailContent: View {
                     }
                     .buttonStyle(SolidButtonStyle())
 
+                    FloatingSection(comp: comp)
+
                     Button("Delete", systemImage: "trash", role: .destructive) { confirmDelete = true }
                         .buttonStyle(SolidButtonStyle(foreground: .red))
                 }
@@ -140,11 +142,38 @@ private struct ReplaceCodeView: View {
     }
 }
 
+/// Experimental floating window (Picture in Picture) for playing TFT, where the Dynamic Island is hidden.
+private struct FloatingSection: View {
+    @Environment(FloatingCompController.self) private var floating
+    let comp: Comp
+
+    private var isFloatingThis: Bool { floating.isActive && floating.floatingCompID == comp.id }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Button(
+                isFloatingThis ? "Stop floating" : "Float over game (beta)",
+                systemImage: isFloatingThis ? "pip.exit" : "pip.enter"
+            ) {
+                if isFloatingThis { floating.stop() } else { floating.float(comp) }
+            }
+            .buttonStyle(SolidButtonStyle())
+            Text("Shows the board in a floating window over TFT. Use the skip buttons in the window to change comps.")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+            if let error = floating.errorMessage {
+                Text(error).font(.footnote).foregroundStyle(.orange)
+            }
+        }
+    }
+}
+
 #Preview {
     let model = AppModel.preview()
     let comp = model.comps().first!
     return NavigationStack { CompDetailView(compID: comp.id) }
         .environment(model)
+        .environment(FloatingCompController())
         .modelContainer(model.repository.container)
         .preferredColorScheme(.dark)
 }

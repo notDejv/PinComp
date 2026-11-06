@@ -15,7 +15,7 @@ struct PinCompWidgetBundle: WidgetBundle {
 struct PinLiveActivity: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: PinAttributes.self) { context in
-            PinLockScreenView(snapshot: PinSnapshot.load(context.state))
+            PinContentView(snapshot: PinSnapshot.load(context.state))
                 .activityBackgroundTint(Surface.card)
                 .activitySystemActionForegroundColor(.white)
                 .widgetURL(PinLink.url(for: context.state.compID))
@@ -47,6 +47,44 @@ struct PinLiveActivity: Widget {
             .keylineTint(snapshot.featured(1).first.map { CostColor.color(for: $0.cost) })
             .widgetURL(PinLink.url(for: context.state.compID))
         }
+        // `.small` is used by the Apple Watch Smart Stack (and CarPlay); `.medium` is the Lock Screen.
+        .supplementalActivityFamilies([.small])
+    }
+}
+
+/// Lock Screen / Notification Center (`.medium`) or Apple Watch Smart Stack (`.small`).
+private struct PinContentView: View {
+    let snapshot: PinSnapshot
+    @Environment(\.activityFamily) private var family
+
+    var body: some View {
+        switch family {
+        case .small: PinWatchView(snapshot: snapshot)
+        default: PinLockScreenView(snapshot: snapshot)
+        }
+    }
+}
+
+/// Apple Watch: name, position and the five highest-cost units. No buttons; the watch is for glancing.
+private struct PinWatchView: View {
+    let snapshot: PinSnapshot
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack {
+                Text(snapshot.name)
+                    .font(.headline)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+                Spacer(minLength: 4)
+                Text(snapshot.positionText)
+                    .font(.caption.monospacedDigit())
+                    .foregroundStyle(.secondary)
+            }
+            BoardView(slots: snapshot.featuredSlots(5), set: snapshot.set, style: .watch)
+        }
+        .padding(8)
+        .foregroundStyle(.white)
     }
 }
 

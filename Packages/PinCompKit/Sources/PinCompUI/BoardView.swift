@@ -30,6 +30,8 @@ public struct BoardView: View {
         public static let island = Style(iconSize: 34, spacing: 6, iconVariant: .island(.expanded))
         /// Landscape island (`isDynamicIslandLimitedInWidth`).
         public static let islandCompact = Style(iconSize: 26, spacing: 4, iconVariant: .island(.expanded))
+        /// Apple Watch Smart Stack: one row of five.
+        public static let watch = Style(iconSize: 24, spacing: 4, iconVariant: .island(.compact))
     }
 
     let slots: [CompSlot]

@@ -56,6 +56,9 @@ targets:
             CFBundleURLSchemes:
               - pincomp
         ITSAppUsesNonExemptEncryption: false
+        # Required for Picture in Picture (experimental floating board).
+        UIBackgroundModes:
+          - audio
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.dejvi.pincomp

@@ -210,6 +210,7 @@ struct EmptyCompsView: View {
     let model = AppModel.preview(pinned: true)
     return NavigationStack { CompListView() }
         .environment(model)
+        .environment(FloatingCompController())
         .modelContainer(model.repository.container)
         .preferredColorScheme(.dark)
 }
@@ -218,6 +219,7 @@ struct EmptyCompsView: View {
     let model = AppModel.preview(withSamples: false)
     return NavigationStack { CompListView() }
         .environment(model)
+        .environment(FloatingCompController())
         .modelContainer(model.repository.container)
         .preferredColorScheme(.dark)
 }
