@@ -1,0 +1,42 @@
+name: Pages
+
+# Commits pushed by the Data workflow use GITHUB_TOKEN and do not trigger `push`,
+# so Pages also deploys after every successful Data run.
+on:
+  push:
+    branches: [main]
+    paths: ["data/**"]
+  workflow_run:
+    workflows: [Data]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: data
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,17 @@
+# Xcode
+*.xcodeproj
+*.xcworkspace
+!Packages/**/*.xcworkspace
+xcuserdata/
+DerivedData/
+build/
+*.xcresult
+.swiftpm/
+Packages/PinCompKit/.build/
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
