@@ -145,13 +145,20 @@ final class AppModel {
 
     func add(name: String, rawCode: String, resolution: Resolution) throws -> Comp {
         let comp = try repository.add(
-            name: Self.cleanName(name, fallback: Comp.defaultName(for: resolution.champions)),
+            name: Self.cleanName(name, fallback: defaultName(for: resolution)),
             set: resolution.set,
             rawCode: rawCode,
             championIDs: resolution.championIDs
         )
         Task { await pins.compsChanged() }
         return comp
+    }
+
+    /// Trait + carry name for a pasted code, made unique among the set's saved comps.
+    func defaultName(for resolution: Resolution, excluding id: UUID? = nil) -> String {
+        let base = Comp.defaultName(for: resolution.champions, traits: traits(in: resolution.set))
+        let taken = Set(((try? repository.comps(in: resolution.set)) ?? []).filter { $0.id != id }.map(\.name))
+        return Comp.uniqueName(base, taken: taken)
     }
 
     func rename(_ comp: Comp, to name: String) {

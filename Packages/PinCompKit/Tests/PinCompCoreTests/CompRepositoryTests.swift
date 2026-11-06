@@ -67,4 +67,20 @@ struct CompRepositoryTests {
         #expect(featured.map(\.name) == ["Taric", "Gnar", "Lillia"])
         #expect(comp.name == "Taric comp")
     }
+
+    @Test func defaultNameUsesStrongestTraitAndCarry() {
+        let champions = Resolution(
+            code: try! TeamPlannerCode(parsing: SampleCatalog.userCode),
+            catalog: SampleCatalog.set18
+        ).champions
+        #expect(Comp.defaultName(for: champions, traits: SampleCatalog.set18.traitsByID) == "Blossom Taric")
+        #expect(Comp.defaultName(for: champions) == "Taric comp")
+        #expect(Comp.defaultName(for: []) == "New comp")
+    }
+
+    @Test func uniqueNameAppendsNumber() {
+        #expect(Comp.uniqueName("Blossom Taric", taken: []) == "Blossom Taric")
+        #expect(Comp.uniqueName("Blossom Taric", taken: ["Blossom Taric"]) == "Blossom Taric 2")
+        #expect(Comp.uniqueName("Blossom Taric", taken: ["Blossom Taric", "Blossom Taric 2"]) == "Blossom Taric 3")
+    }
 }

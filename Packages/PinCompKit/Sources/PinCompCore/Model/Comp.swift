@@ -70,9 +70,22 @@ extension Comp {
             .map(\.1)
     }
 
-    /// Default name: top featured champion + " comp".
-    public static func defaultName(for champions: [Champion]) -> String {
+    /// Default name in the community's style, strongest trait + carry ("Blossom Taric").
+    /// Falls back to "<carry> comp" when no catalog traits are known.
+    /// Single-unit traits (first breakpoint 1) are skipped: they only repeat a champion's name.
+    public static func defaultName(for champions: [Champion], traits: [String: Trait] = [:]) -> String {
         let slots = champions.enumerated().map { CompSlot(index: $0.offset, championID: $0.element.id, champion: $0.element) }
-        return featured(slots, limit: 1).first.map { "\($0.name) comp" } ?? "New comp"
+        guard let carry = featured(slots, limit: 1).first else { return "New comp" }
+        let trait = ActiveTrait.compute(slots: slots, traits: traits)
+            .first { ($0.trait.breakpoints.first ?? 1) > 1 }
+        return trait.map { "\($0.trait.name) \(carry.name)" } ?? "\(carry.name) comp"
+    }
+
+    /// `base`, or `base 2`, `base 3`, … if `taken` already contains it.
+    public static func uniqueName(_ base: String, taken: Set<String>) -> String {
+        guard taken.contains(base) else { return base }
+        var number = 2
+        while taken.contains("\(base) \(number)") { number += 1 }
+        return "\(base) \(number)"
     }
 }

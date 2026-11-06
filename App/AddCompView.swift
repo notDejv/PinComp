@@ -42,7 +42,7 @@ final class AddCompModel {
         state = .loading
         switch await model.resolve(code) {
         case .success(let resolution):
-            if name.isEmpty || replacing == nil { name = Comp.defaultName(for: resolution.champions) }
+            if name.isEmpty || replacing == nil { name = model.defaultName(for: resolution, excluding: replacing) }
             state = .resolved(rawCode: TeamPlannerCode.normalized(raw), resolution: resolution)
             pasteCount += 1
         case .failure(let error):
