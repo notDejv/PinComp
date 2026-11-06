@@ -101,6 +101,15 @@ final class FloatingCompController {
         self.model = model
     }
 
+    /// Creates the PiP controller ahead of time. PiP only becomes "possible" a moment after the
+    /// controller exists, and a start that waits for that is no longer tied to the user's tap,
+    /// so preparing at launch makes the first tap work.
+    func prepare() {
+        guard isSupported, let model, pipController == nil else { return }
+        activateAudioSession()
+        _ = makeControllerIfNeeded(model: model)
+    }
+
     /// Starts the floating window with `comp`, or switches the open window to it.
     func float(_ comp: Comp) async {
         errorMessage = nil

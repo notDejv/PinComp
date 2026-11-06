@@ -46,7 +46,10 @@ struct RootView: View {
                 .accessibilityHidden(true)
         }
         .background(Surface.background)
-        .task { await model.start() }
+        .task {
+            floating.prepare()
+            await model.start()
+        }
         .onChange(of: scenePhase) { _, phase in
             // Live Activities can end while the app is away (8-hour limit, Unpin on the island).
             if phase == .active {
