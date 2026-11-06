@@ -35,7 +35,7 @@ struct RootView: View {
         .preferredColorScheme(.dark)
         .background(alignment: .bottomTrailing) {
             // PiP needs its layer in the window; it stays behind the content.
-            FloatingLayerView(layer: floating.displayLayer)
+            FloatingSourceView(view: floating.sourceView)
                 .frame(width: 2, height: 2)
                 .allowsHitTesting(false)
                 .accessibilityHidden(true)

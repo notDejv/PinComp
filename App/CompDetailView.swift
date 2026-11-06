@@ -147,7 +147,7 @@ private struct FloatingSection: View {
     @Environment(FloatingCompController.self) private var floating
     let comp: Comp
 
-    private var isFloatingThis: Bool { floating.isActive && floating.floatingCompID == comp.id }
+    private var isFloatingThis: Bool { floating.isActive }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -155,10 +155,10 @@ private struct FloatingSection: View {
                 isFloatingThis ? "Stop floating" : "Float over game (beta)",
                 systemImage: isFloatingThis ? "pip.exit" : "pip.enter"
             ) {
-                if isFloatingThis { floating.stop() } else { floating.float(comp) }
+                if isFloatingThis { floating.stop() } else { Task { await floating.float(comp) } }
             }
             .buttonStyle(SolidButtonStyle())
-            Text("Shows the board in a floating window over TFT. Use the skip buttons in the window to change comps.")
+            Text("Pins this comp and shows it in a floating window over TFT. \"Next comp\" in Notification Center changes it.")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
             if let error = floating.errorMessage {
