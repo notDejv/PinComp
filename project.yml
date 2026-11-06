@@ -35,6 +35,7 @@ targets:
         product: PinCompUI
       - package: PinCompKit
         product: PinCompActivity
+      - target: PinCompWidget
     entitlements:
       path: App/PinComp.entitlements
       properties:
@@ -60,11 +61,39 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.dejvi.pincomp
         INFOPLIST_KEY_CFBundleDisplayName: PinComp
 
+  PinCompWidget:
+    type: app-extension
+    platform: iOS
+    sources:
+      - Widget
+    dependencies:
+      - package: PinCompKit
+        product: PinCompCore
+      - package: PinCompKit
+        product: PinCompUI
+      - package: PinCompKit
+        product: PinCompActivity
+    entitlements:
+      path: Widget/PinCompWidget.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.dejvi.pincomp
+    info:
+      path: Widget/Info.plist
+      properties:
+        CFBundleDisplayName: PinComp
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.dejvi.pincomp.widget
+
 schemes:
   PinComp:
     build:
       targets:
         PinComp: all
+        PinCompWidget: all
     test:
       targets:
         - package: PinCompKit/PinCompCoreTests
