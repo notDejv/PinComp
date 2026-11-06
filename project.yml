@@ -1,0 +1,74 @@
+name: PinComp
+
+options:
+  bundleIdPrefix: com.dejvi
+  deploymentTarget:
+    iOS: "27.0"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    DEVELOPMENT_TEAM: 7X2DPYK2TT
+    CODE_SIGN_STYLE: Automatic
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    TARGETED_DEVICE_FAMILY: "1"
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+
+packages:
+  PinCompKit:
+    path: Packages/PinCompKit
+
+targets:
+  PinComp:
+    type: application
+    platform: iOS
+    sources:
+      - App
+    dependencies:
+      - package: PinCompKit
+        product: PinCompCore
+      - package: PinCompKit
+        product: PinCompUI
+      - package: PinCompKit
+        product: PinCompActivity
+    entitlements:
+      path: App/PinComp.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.dejvi.pincomp
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: PinComp
+        NSSupportsLiveActivities: true
+        UILaunchScreen:
+          UIColorName: ""
+        UIUserInterfaceStyle: Dark
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        CFBundleURLTypes:
+          - CFBundleURLName: com.dejvi.pincomp
+            CFBundleURLSchemes:
+              - pincomp
+        ITSAppUsesNonExemptEncryption: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.dejvi.pincomp
+        INFOPLIST_KEY_CFBundleDisplayName: PinComp
+
+schemes:
+  PinComp:
+    build:
+      targets:
+        PinComp: all
+    test:
+      targets:
+        - package: PinCompKit/PinCompCoreTests
+    run:
+      config: Debug
+    archive:
+      config: Release

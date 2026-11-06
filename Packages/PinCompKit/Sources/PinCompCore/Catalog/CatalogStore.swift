@@ -58,7 +58,8 @@ public actor CatalogStore: CatalogProviding {
 
     public func catalog(for set: String) async throws -> SetCatalog {
         if let cached = cache.loadCatalog(set: set) { return cached }
-        return try await downloadCatalog(set: set)
+        // Missing icons show as placeholders and are retried on the next refresh.
+        return try await downloadCatalog(set: set).catalog
     }
 
     public func lastUpdated() -> Date? {
@@ -77,14 +78,16 @@ public actor CatalogStore: CatalogProviding {
     private func performRefresh() async throws -> CatalogIndex {
         let indexData = try await fetch(baseURL.appending(path: "index.json"))
         let index = try JSONDecoder().decode(CatalogIndex.self, from: indexData)
-        _ = try await downloadCatalog(set: index.latest)
+        let (_, failedIcons) = try await downloadCatalog(set: index.latest)
         // Written last: its modification date is "last updated".
         try cache.write(indexData, to: cache.indexURL)
+        if failedIcons > 0 { throw CatalogError.iconsIncomplete(missing: failedIcons) }
         return index
     }
 
     /// Downloads `champions.json`; fetches all icons when `generatedAt` changed, otherwise only missing ones.
-    private func downloadCatalog(set: String) async throws -> SetCatalog {
+    /// Returns the catalog and the number of icons that failed to download.
+    private func downloadCatalog(set: String) async throws -> (catalog: SetCatalog, failedIcons: Int) {
         let data = try await fetch(baseURL.appending(path: set).appending(path: "champions.json"))
         let catalog = try JSONDecoder().decode(SetCatalog.self, from: data)
         let previous = cache.loadCatalog(set: set)
@@ -94,8 +97,7 @@ public actor CatalogStore: CatalogProviding {
         let failures = await downloadIcons(needed, set: set)
 
         try cache.write(data, to: cache.catalogURL(set: set))
-        if failures > 0 { throw CatalogError.iconsIncomplete(missing: failures) }
-        return catalog
+        return (catalog, failures)
     }
 
     /// Returns the number of icons that failed.
