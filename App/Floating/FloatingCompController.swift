@@ -2,19 +2,39 @@ import AVFoundation
 import AVKit
 import Observation
 import PinCompCore
+import PinCompUI
 import SwiftData
 import SwiftUI
 
 /// Experimental: floats the board over full-screen apps (TFT hides the Dynamic Island) using
 /// the video-call flavor of Picture in Picture, which has no playback controls and shows a live view.
 ///
-/// Floating is independent of the Live Activity pin. While both are on, the Live Activity's
-/// "Next comp" (Notification Center, Watch, Lock Screen) also changes the floating board.
+/// Floating is independent of the Live Activity pin. "Next comp" (Back Tap, Control Center,
+/// Siri, or the Live Activity) cycles the floating board; see `AppActions.nextComp()`.
 @MainActor
 @Observable
 final class FloatingCompController {
-    /// The window's natural size; the user can resize it and the content scales.
-    static let contentSize = CGSize(width: 320, height: 210)
+    static let shared = FloatingCompController()
+
+    enum Layout: String, CaseIterable, Identifiable {
+        /// All units, 2 rows of 5.
+        case board
+        /// The five highest-cost units in one row: a smaller window.
+        case top5
+
+        var id: String { rawValue }
+        var title: String {
+            switch self {
+            case .board: "Full board"
+            case .top5: "Top 5"
+            }
+        }
+    }
+
+    // Window options, persisted per device.
+    var layout: Layout { didSet { optionsChanged() } }
+    var showsNames: Bool { didSet { optionsChanged() } }
+    var showsTraits: Bool { didSet { optionsChanged() } }
 
     private(set) var isActive = false
     private(set) var floatingCompID: UUID?
@@ -24,12 +44,58 @@ final class FloatingCompController {
     let sourceView = UIView()
 
     @ObservationIgnored private var pipController: AVPictureInPictureController?
+    @ObservationIgnored private var callController: AVPictureInPictureVideoCallViewController?
+    @ObservationIgnored private let defaults = UserDefaults.standard
     @ObservationIgnored private var stateDelegate: StateDelegate?
     @ObservationIgnored private var possibleObservation: NSKeyValueObservation?
     @ObservationIgnored private var startWhenPossible = false
     @ObservationIgnored private weak var model: AppModel?
 
     var isSupported: Bool { AVPictureInPictureController.isPictureInPictureSupported() }
+
+    init() {
+        layout = Layout(rawValue: UserDefaults.standard.string(forKey: Keys.layout) ?? "") ?? .board
+        showsNames = UserDefaults.standard.object(forKey: Keys.showsNames) as? Bool ?? true
+        showsTraits = UserDefaults.standard.object(forKey: Keys.showsTraits) as? Bool ?? true
+    }
+
+    private enum Keys {
+        static let layout = "floating.layout"
+        static let showsNames = "floating.showsNames"
+        static let showsTraits = "floating.showsTraits"
+    }
+
+    // MARK: Layout metrics
+
+    static let width: CGFloat = 320
+    static let padding: CGFloat = 16
+    static let headerHeight: CGFloat = 24
+    static let sectionSpacing: CGFloat = 10
+    static let traitHeight: CGFloat = 20
+
+    var boardStyle: BoardView.Style {
+        showsNames
+            ? BoardView.Style(iconSize: 46, spacing: 6, showsNames: true)
+            : BoardView.Style(iconSize: 50, spacing: 8)
+    }
+
+    /// The window's natural size for the current options; the user can resize it and the content scales.
+    var contentSize: CGSize {
+        let style = boardStyle
+        let rows: CGFloat = layout == .board ? 2 : 1
+        let rowHeight = style.iconSize + (showsNames ? 17 : 0)
+        let board = rows * rowHeight + (rows - 1) * style.spacing
+        let traits = showsTraits ? Self.traitHeight + Self.sectionSpacing : 0
+        let height = Self.padding * 2 + Self.headerHeight + Self.sectionSpacing + traits + board
+        return CGSize(width: Self.width, height: height.rounded(.up))
+    }
+
+    private func optionsChanged() {
+        defaults.set(layout.rawValue, forKey: Keys.layout)
+        defaults.set(showsNames, forKey: Keys.showsNames)
+        defaults.set(showsTraits, forKey: Keys.showsTraits)
+        callController?.preferredContentSize = contentSize
+    }
 
     func attach(to model: AppModel) {
         self.model = model
@@ -59,6 +125,15 @@ final class FloatingCompController {
         if isActive { floatingCompID = compID }
     }
 
+    /// Shows the next current-set comp in list order, wrapping around.
+    func next() {
+        guard isActive, let model else { return }
+        let comps = model.comps()
+        guard !comps.isEmpty else { return }
+        let current = comps.firstIndex { $0.id == floatingCompID } ?? -1
+        floatingCompID = comps[(current + 1) % comps.count].id
+    }
+
     func stop() {
         startWhenPossible = false
         pipController?.stopPictureInPicture()
@@ -70,7 +145,7 @@ final class FloatingCompController {
         if let pipController { return pipController }
 
         let callController = AVPictureInPictureVideoCallViewController()
-        callController.preferredContentSize = Self.contentSize
+        callController.preferredContentSize = contentSize
         let hosting = UIHostingController(
             rootView: FloatingBoardView()
                 .environment(model)
@@ -109,6 +184,7 @@ final class FloatingCompController {
             }
         }
         pipController = controller
+        self.callController = callController
         stateDelegate = state
         return controller
     }

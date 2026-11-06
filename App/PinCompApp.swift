@@ -5,8 +5,13 @@ import SwiftUI
 
 @main
 struct PinCompApp: App {
-    @State private var model = AppModel.live()
-    @State private var floating = FloatingCompController()
+    @State private var model = AppModel.shared
+    @State private var floating = FloatingCompController.shared
+
+    init() {
+        FloatingCompController.shared.attach(to: AppModel.shared)
+        NextCompRouter.handler = { await AppActions.nextComp() }
+    }
 
     var body: some Scene {
         WindowGroup {
@@ -41,10 +46,7 @@ struct RootView: View {
                 .accessibilityHidden(true)
         }
         .background(Surface.background)
-        .task {
-            floating.attach(to: model)
-            await model.start()
-        }
+        .task { await model.start() }
         .onChange(of: scenePhase) { _, phase in
             // Live Activities can end while the app is away (8-hour limit, Unpin on the island).
             if phase == .active {

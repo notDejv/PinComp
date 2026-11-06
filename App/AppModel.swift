@@ -40,6 +40,7 @@ final class AppModel {
     private(set) var hasStarted = false
 
     @ObservationIgnored private var lookups: [String: [String: Champion]] = [:]
+    @ObservationIgnored private var traitLookups: [String: [String: Trait]] = [:]
     /// Bumped when catalogs change so boards re-render with new data.
     private(set) var catalogVersion = 0
 
@@ -51,6 +52,9 @@ final class AppModel {
         self.repository = repository
         self.pins = pins
     }
+
+    /// The app's single instance; intents reach it through `AppActions`.
+    static let shared = AppModel.live()
 
     static func live() -> AppModel {
         AppModel(catalog: CatalogStore.shared, repository: .shared, pins: PinService.shared)
@@ -83,6 +87,7 @@ final class AppModel {
         }
         lastUpdated = await catalog.lastUpdated()
         lookups.removeAll()
+        traitLookups.removeAll()
         await loadCatalog(for: currentSet)
         await pins.compsChanged()
     }
@@ -90,6 +95,7 @@ final class AppModel {
     private func loadCatalog(for set: String?) async {
         guard let set, let loaded = try? await catalog.catalog(for: set) else { return }
         lookups[set] = loaded.championsByID
+        traitLookups[set] = loaded.traitsByID
         catalogVersion += 1
     }
 
@@ -97,6 +103,12 @@ final class AppModel {
     func champions(in set: String) -> [String: Champion] {
         _ = catalogVersion
         return lookups[set] ?? [:]
+    }
+
+    /// Traits of `set` by ID; empty until the catalog is loaded (or for catalogs without traits).
+    func traits(in set: String) -> [String: Trait] {
+        _ = catalogVersion
+        return traitLookups[set] ?? [:]
     }
 
     /// Validates a code against the current set and resolves it.
@@ -209,6 +221,7 @@ extension AppModel {
         )
         model.currentSet = SampleCatalog.index.latest
         model.lookups[SampleCatalog.set18.set] = SampleCatalog.set18.championsByID
+        model.traitLookups[SampleCatalog.set18.set] = SampleCatalog.set18.traitsByID
         model.hasStarted = true
         return model
     }

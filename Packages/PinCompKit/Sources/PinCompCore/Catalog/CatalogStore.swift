@@ -99,13 +99,37 @@ public actor CatalogStore: CatalogProviding {
         let changed = previous?.generatedAt != catalog.generatedAt
 
         let needed = catalog.champions.filter { changed || !cache.hasAllIcons(set: set, championID: $0.id) }
-        let failures = await downloadIcons(needed, set: set, redownload: changed)
+        var failures = await downloadIcons(needed, set: set, redownload: changed)
+        let neededTraits = catalog.traits.filter { changed || cache.cachedTraitIcon(set: set, traitID: $0.id) == nil }
+        failures += await downloadTraitIcons(neededTraits, set: set)
 
         try cache.write(data, to: cache.catalogURL(set: set))
         return (catalog, failures)
     }
 
     /// Returns the number of icons that failed.
+    /// Returns the number of trait icons that failed. Traits without an icon are skipped.
+    private func downloadTraitIcons(_ traits: [Trait], set: String) async -> Int {
+        let fetch = fetch
+        let cache = cache
+        return await withTaskGroup(of: Bool.self) { group in
+            for trait in traits {
+                guard let url = trait.iconURL else { continue }
+                group.addTask {
+                    do {
+                        try cache.write(try await fetch(url), to: cache.traitIconURL(set: set, traitID: trait.id))
+                        return true
+                    } catch {
+                        return false
+                    }
+                }
+            }
+            var failures = 0
+            for await ok in group where !ok { failures += 1 }
+            return failures
+        }
+    }
+
     /// Saves the full icon plus the island copies. Reuses a cached full icon unless `redownload`.
     private func downloadIcons(_ champions: [Champion], set: String, redownload: Bool) async -> Int {
         let fetch = fetch

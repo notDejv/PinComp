@@ -1,15 +1,27 @@
 import AppIntents
 
-/// Island button: shows the next comp. Runs in the background; never opens the app.
+/// Lets the app decide what "Next comp" does (e.g. also cycle the floating window).
+/// Unset in the widget process; intents below run in the app process (`LiveActivityIntent`).
+@MainActor
+public enum NextCompRouter {
+    public static var handler: (@MainActor () async -> Void)?
+}
+
+/// Shows the next comp. Used by the Live Activity button, the Control Center control, Siri,
+/// Shortcuts, Back Tap and the Action button. Runs in the background; never opens the app.
 public struct NextCompIntent: LiveActivityIntent {
     public static let title: LocalizedStringResource = "Next comp"
-    public static let isDiscoverable = false
+    public static let description = IntentDescription("Shows the next saved comp in the floating window and the Live Activity.")
 
     public init() {}
 
     @MainActor
     public func perform() async throws -> some IntentResult {
-        await PinService.shared.next()
+        if let handler = NextCompRouter.handler {
+            await handler()
+        } else {
+            await PinService.shared.next()
+        }
         return .result()
     }
 }

@@ -9,6 +9,7 @@ import WidgetKit
 struct PinCompWidgetBundle: WidgetBundle {
     var body: some Widget {
         PinLiveActivity()
+        NextCompControl()
     }
 }
 

@@ -14,12 +14,11 @@ struct FloatingBoardView: View {
         return allComps.filter { $0.set == set }
     }
 
-    private var shownID: UUID? { floating.floatingCompID }
-
     var body: some View {
         Group {
-            if let id = shownID, let index = comps.firstIndex(where: { $0.id == id }) {
-                board(comps[index], position: "\(index + 1)/\(comps.count)")
+            if let id = floating.floatingCompID, let index = comps.firstIndex(where: { $0.id == id }) {
+                content(comps[index], position: "\(index + 1)/\(comps.count)")
+                    .scaleToFit(floating.contentSize)
             } else {
                 Text("Comp not found")
                     .font(.headline)
@@ -35,14 +34,13 @@ struct FloatingBoardView: View {
         }
     }
 
-    /// Laid out at the window's natural size, then scaled to whatever size the user resizes it to.
-    private func board(_ comp: Comp, position: String) -> some View {
-        content(comp, position: position)
-            .scaleToFit(FloatingCompController.contentSize)
-    }
-
+    /// Laid out at the window's natural size (`contentSize`), then scaled to the window.
     private func content(_ comp: Comp, position: String) -> some View {
-        VStack(alignment: .leading, spacing: 10) {
+        let all = comp.slots(in: model.champions(in: comp.set))
+        let slots = floating.layout == .top5 ? Self.top5(all) : all
+        let traits = ActiveTrait.compute(slots: all, traits: model.traits(in: comp.set))
+
+        return VStack(alignment: .leading, spacing: FloatingCompController.sectionSpacing) {
             HStack {
                 Text(comp.name)
                     .font(.system(size: 20, weight: .bold))
@@ -52,16 +50,47 @@ struct FloatingBoardView: View {
                     .font(.system(size: 18, weight: .semibold).monospacedDigit())
                     .foregroundStyle(.secondary)
             }
-            BoardView(slots: comp.slots(in: model.champions(in: comp.set)), set: comp.set, style: .floating)
+            .frame(height: FloatingCompController.headerHeight)
+
+            if floating.showsTraits {
+                TraitRow(traits: traits, set: comp.set)
+            }
+
+            BoardView(slots: slots, set: comp.set, style: floating.boardStyle)
         }
-        .padding(16)
+        .padding(FloatingCompController.padding)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+    }
+
+    /// The five highest-cost units as board slots (traits are still computed from the full board).
+    private static func top5(_ slots: [CompSlot]) -> [CompSlot] {
+        Comp.featured(slots, limit: 5).enumerated().map {
+            CompSlot(index: $0.offset, championID: $0.element.id, champion: $0.element)
+        }
     }
 }
 
-extension BoardView.Style {
-    /// Five 46 pt icons with names per row fit the 320 × 210 pt window.
-    static let floating = BoardView.Style(iconSize: 46, spacing: 6, showsNames: true)
+/// As many active traits as fit on one line, strongest first.
+private struct TraitRow: View {
+    let traits: [ActiveTrait]
+    let set: String
+
+    var body: some View {
+        HStack(spacing: 4) {
+            if traits.isEmpty {
+                Text("No active traits")
+                    .font(.system(size: 12))
+                    .foregroundStyle(.secondary)
+            } else {
+                ForEach(traits.prefix(7)) { active in
+                    TraitChip(active, set: set, height: FloatingCompController.traitHeight)
+                }
+            }
+        }
+        .frame(height: FloatingCompController.traitHeight, alignment: .leading)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .clipped()
+    }
 }
 
 private extension View {

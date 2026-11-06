@@ -156,3 +156,36 @@ struct CatalogStoreTests {
         #expect(try await offline.catalog(for: "TFTSet18").champions.isEmpty == false)
     }
 }
+
+@Suite("ActiveTrait")
+struct ActiveTraitTests {
+    private let slots = Resolution(
+        code: try! TeamPlannerCode(parsing: SampleCatalog.userCode),
+        catalog: SampleCatalog.set18
+    ).compSlots
+
+    @Test func userCompTraits() {
+        let active = ActiveTrait.compute(slots: slots, traits: SampleCatalog.set18.traitsByID)
+        #expect(active.first?.trait.name == "Blossom")
+        #expect(active.first?.count == 3)
+        #expect(active.count == 11)
+        // Below their first breakpoint.
+        #expect(!active.contains { $0.trait.name == "Elderwood" || $0.trait.name == "Sprykin" })
+    }
+
+    @Test func duplicateChampionsCountOnce() {
+        let doubled = slots + slots.map { CompSlot(index: $0.index + 10, championID: $0.championID, champion: $0.champion) }
+        let once = ActiveTrait.compute(slots: slots, traits: SampleCatalog.set18.traitsByID)
+        #expect(ActiveTrait.compute(slots: doubled, traits: SampleCatalog.set18.traitsByID) == once)
+    }
+
+    @Test func decodesCatalogWithoutTraits() throws {
+        let json = """
+        {"set":"TFTSet18","generatedAt":"x","champions":[
+          {"id":"A","name":"A","cost":1,"plannerCode":1,"icon":"https://example.com/a.png"}]}
+        """
+        let catalog = try JSONDecoder().decode(SetCatalog.self, from: Data(json.utf8))
+        #expect(catalog.traits.isEmpty)
+        #expect(catalog.champions.first?.traits == [])
+    }
+}

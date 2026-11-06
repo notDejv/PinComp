@@ -2,9 +2,10 @@ import PinCompCore
 import PinCompUI
 import SwiftUI
 
-/// Exactly three things: Refresh data, Clear comps, About.
+/// Floating window options, Next comp setup, Refresh data, Clear comps, About.
 struct SettingsView: View {
     @Environment(AppModel.self) private var model
+    @Environment(FloatingCompController.self) private var floating
     @Environment(\.dismiss) private var dismiss
     @State private var confirmClear = false
 
@@ -38,6 +39,44 @@ struct SettingsView: View {
                             Text(error).foregroundStyle(.orange)
                         }
                     }
+                }
+
+                Section {
+                    Picker("Layout", selection: Bindable(floating).layout) {
+                        ForEach(FloatingCompController.Layout.allCases) { Text($0.title).tag($0) }
+                    }
+                    Toggle("Champion names", isOn: Bindable(floating).showsNames)
+                    Toggle("Active traits", isOn: Bindable(floating).showsTraits)
+                } header: {
+                    Text("Floating window")
+                } footer: {
+                    Text("Changes apply to an open window right away.")
+                }
+
+                Section {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Label("Back Tap", systemImage: "hand.tap")
+                            .font(.subheadline.weight(.semibold))
+                        Text("Double-tap the back of your iPhone to switch comps while playing. In the Shortcuts app, add PinComp's **Next comp** shortcut, then pick it in Settings → Accessibility → Touch → Back Tap → Double Tap.")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                    VStack(alignment: .leading, spacing: 8) {
+                        Label("Control Center", systemImage: "switch.2")
+                            .font(.subheadline.weight(.semibold))
+                        Text("Open Control Center, tap **+**, then **Add a Control** → PinComp → **Next comp**.")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                    VStack(alignment: .leading, spacing: 8) {
+                        Label("Siri & Action button", systemImage: "mic")
+                            .font(.subheadline.weight(.semibold))
+                        Text("Say \"PinComp next comp\", or assign the **Next comp** shortcut to the Action button.")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                } header: {
+                    Text("Switch comps in game")
                 }
 
                 Section {
@@ -83,4 +122,5 @@ struct SettingsView: View {
 #Preview {
     SettingsView()
         .environment(AppModel.preview())
+        .environment(FloatingCompController())
 }

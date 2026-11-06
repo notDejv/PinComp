@@ -1,447 +1,1049 @@
 {
   "set": "TFTSet17",
-  "generatedAt": "2026-11-06T19:52:18Z",
+  "generatedAt": "2026-11-06T21:27:02Z",
   "champions": [
     {
       "id": "TFT17_Aatrox",
       "name": "Aatrox",
       "cost": 1,
       "plannerCode": 29,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_aatrox/skins/base/images/tft17_aatrox_splash_tile_30.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_aatrox/skins/base/images/tft17_aatrox_splash_tile_30.png",
+      "traits": [
+        "TFT17_DRX",
+        "TFT17_ResistTank"
+      ]
     },
     {
       "id": "TFT17_Briar",
       "name": "Briar",
       "cost": 1,
       "plannerCode": 14,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_briar/skins/base/images/tft17_briar_splash_tile_10.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_briar/skins/base/images/tft17_briar_splash_tile_10.png",
+      "traits": [
+        "TFT17_AnimaSquad",
+        "TFT17_Primordian",
+        "TFT17_AssassinTrait"
+      ]
     },
     {
       "id": "TFT17_Caitlyn",
       "name": "Caitlyn",
       "cost": 1,
       "plannerCode": 27,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_caitlyn/skins/base/images/tft17_caitlyn_splash_tile_48.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_caitlyn/skins/base/images/tft17_caitlyn_splash_tile_48.png",
+      "traits": [
+        "TFT17_DRX",
+        "TFT17_Fateweaver"
+      ]
     },
     {
       "id": "TFT17_Chogath",
       "name": "Cho'Gath",
       "cost": 1,
       "plannerCode": 69,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_chogath/skins/base/images/tft17_chogath_splash_tile_7.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_chogath/skins/base/images/tft17_chogath_splash_tile_7.png",
+      "traits": [
+        "TFT17_DarkStar",
+        "TFT17_HPTank"
+      ]
     },
     {
       "id": "TFT17_Ezreal",
       "name": "Ezreal",
       "cost": 1,
       "plannerCode": 62,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_ezreal/skins/base/images/tft17_ezreal_splash_tile_5.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_ezreal/skins/base/images/tft17_ezreal_splash_tile_5.png",
+      "traits": [
+        "TFT17_Timebreaker",
+        "TFT17_RangedTrait"
+      ]
     },
     {
       "id": "TFT17_Leona",
       "name": "Leona",
       "cost": 1,
       "plannerCode": 66,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_leona/skins/base/images/tft17_leona_splash_tile_64.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_leona/skins/base/images/tft17_leona_splash_tile_64.png",
+      "traits": [
+        "TFT17_ADMIN",
+        "TFT17_ShieldTank"
+      ]
     },
     {
       "id": "TFT17_Lissandra",
       "name": "Lissandra",
       "cost": 1,
       "plannerCode": 70,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_lissandra/skins/base/images/tft17_lissandra_splash_tile_12.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_lissandra/skins/base/images/tft17_lissandra_splash_tile_12.png",
+      "traits": [
+        "TFT17_DarkStar",
+        "TFT17_SummonTrait",
+        "TFT17_APTrait"
+      ]
     },
     {
       "id": "TFT17_Nasus",
       "name": "Nasus",
       "cost": 1,
       "plannerCode": 52,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_nasus/skins/base/images/tft17_nasus_splash_tile_25.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_nasus/skins/base/images/tft17_nasus_splash_tile_25.png",
+      "traits": [
+        "TFT17_SpaceGroove",
+        "TFT17_ShieldTank"
+      ]
     },
     {
       "id": "TFT17_Poppy",
       "name": "Poppy",
       "cost": 1,
       "plannerCode": 26,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_poppy/skins/base/images/tft17_poppy_splash_tile_16.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_poppy/skins/base/images/tft17_poppy_splash_tile_16.png",
+      "traits": [
+        "TFT17_Astronaut",
+        "TFT17_ResistTank"
+      ]
     },
     {
       "id": "TFT17_RekSai",
       "name": "Rek'Sai",
       "cost": 1,
       "plannerCode": 104,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_reksai/skins/base/images/tft17_reksai_splash_tile_26.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_reksai/skins/base/images/tft17_reksai_splash_tile_26.png",
+      "traits": [
+        "TFT17_Primordian",
+        "TFT17_HPTank"
+      ]
     },
     {
       "id": "TFT17_Talon",
       "name": "Talon",
       "cost": 1,
       "plannerCode": 42,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_talon/skins/base/images/tft17_talon_splash_tile_39.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_talon/skins/base/images/tft17_talon_splash_tile_39.png",
+      "traits": [
+        "TFT17_Stargazer",
+        "TFT17_AssassinTrait"
+      ]
     },
     {
       "id": "TFT17_Teemo",
       "name": "Teemo",
       "cost": 1,
       "plannerCode": 51,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_teemo/skins/base/images/tft17_teemo_splash_tile_47.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_teemo/skins/base/images/tft17_teemo_splash_tile_47.png",
+      "traits": [
+        "TFT17_SpaceGroove",
+        "TFT17_SummonTrait"
+      ]
     },
     {
       "id": "TFT17_TwistedFate",
       "name": "Twisted Fate",
       "cost": 1,
       "plannerCode": 43,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_twistedfate/skins/base/images/tft17_twistedfate_splash_tile_45.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_twistedfate/skins/base/images/tft17_twistedfate_splash_tile_45.png",
+      "traits": [
+        "TFT17_Stargazer",
+        "TFT17_Fateweaver"
+      ]
     },
     {
       "id": "TFT17_Veigar",
       "name": "Veigar",
       "cost": 1,
       "plannerCode": 22,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_veigar/skins/base/images/tft17_veigar_splash_tile_32.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_veigar/skins/base/images/tft17_veigar_splash_tile_32.png",
+      "traits": [
+        "TFT17_Astronaut",
+        "TFT17_APTrait"
+      ]
     },
     {
       "id": "TFT17_Akali",
       "name": "Akali",
       "cost": 2,
       "plannerCode": 13,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_akali/skins/base/images/tft17_akali_splash_tile_68.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_akali/skins/base/images/tft17_akali_splash_tile_68.png",
+      "traits": [
+        "TFT17_DRX",
+        "TFT17_MeleeTrait"
+      ]
     },
     {
       "id": "TFT17_Belveth",
       "name": "Bel'Veth",
       "cost": 2,
       "plannerCode": 15,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_belveth/skins/base/images/tft17_belveth_splash_tile_19.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_belveth/skins/base/images/tft17_belveth_splash_tile_19.png",
+      "traits": [
+        "TFT17_Primordian",
+        "TFT17_ASTrait",
+        "TFT17_MeleeTrait"
+      ]
     },
     {
       "id": "TFT17_Gnar",
       "name": "Gnar",
       "cost": 2,
       "plannerCode": 23,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_gnar/skins/base/images/tft17_gnar_splash_tile_15.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_gnar/skins/base/images/tft17_gnar_splash_tile_15.png",
+      "traits": [
+        "TFT17_Astronaut",
+        "TFT17_HPTank",
+        "TFT17_RangedTrait"
+      ]
     },
     {
       "id": "TFT17_Gragas",
       "name": "Gragas",
       "cost": 2,
       "plannerCode": 49,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_gragas/skins/base/images/tft17_gragas_splash_tile_10.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_gragas/skins/base/images/tft17_gragas_splash_tile_10.png",
+      "traits": [
+        "TFT17_PsyOps",
+        "TFT17_HPTank"
+      ]
     },
     {
       "id": "TFT17_Gwen",
       "name": "Gwen",
       "cost": 2,
       "plannerCode": 53,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_gwen/skins/base/images/tft17_gwen_splash_tile_1.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_gwen/skins/base/images/tft17_gwen_splash_tile_1.png",
+      "traits": [
+        "TFT17_SpaceGroove",
+        "TFT17_AssassinTrait"
+      ]
     },
     {
       "id": "TFT17_Jax",
       "name": "Jax",
       "cost": 2,
       "plannerCode": 44,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_jax/skins/base/images/tft17_jax_mobile.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_jax/skins/base/images/tft17_jax_mobile.png",
+      "traits": [
+        "TFT17_Stargazer",
+        "TFT17_ResistTank"
+      ]
     },
     {
       "id": "TFT17_Jinx",
       "name": "Jinx",
       "cost": 2,
       "plannerCode": 18,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_jinx/skins/base/images/tft17_jinx_splash_tile_38.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_jinx/skins/base/images/tft17_jinx_splash_tile_38.png",
+      "traits": [
+        "TFT17_AnimaSquad",
+        "TFT17_ASTrait"
+      ]
     },
     {
       "id": "TFT17_IvernMinion",
       "name": "Meepsie",
       "cost": 2,
       "plannerCode": 20,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_ivernminion/skins/base/images/tft17_ivernminion_splash_tile_27.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_ivernminion/skins/base/images/tft17_ivernminion_splash_tile_27.png",
+      "traits": [
+        "TFT17_Astronaut",
+        "TFT17_SummonTrait",
+        "TFT17_FlexTrait"
+      ]
     },
     {
       "id": "TFT17_Milio",
       "name": "Milio",
       "cost": 2,
       "plannerCode": 61,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_milio/skins/base/images/tft17_milio_splash_tile_0.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_milio/skins/base/images/tft17_milio_splash_tile_0.png",
+      "traits": [
+        "TFT17_Timebreaker",
+        "TFT17_Fateweaver"
+      ]
     },
     {
       "id": "TFT17_Mordekaiser",
       "name": "Mordekaiser",
       "cost": 2,
       "plannerCode": 78,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_mordekaiser/skins/base/images/tft17_mordekaiser_splash_tile_6.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_mordekaiser/skins/base/images/tft17_mordekaiser_splash_tile_6.png",
+      "traits": [
+        "TFT17_DarkStar",
+        "TFT17_ManaTrait",
+        "TFT17_ShieldTank"
+      ]
     },
     {
       "id": "TFT17_Pantheon",
       "name": "Pantheon",
       "cost": 2,
       "plannerCode": 37,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_pantheon/skins/base/images/tft17_pantheon_splash_tile_16.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_pantheon/skins/base/images/tft17_pantheon_splash_tile_16.png",
+      "traits": [
+        "TFT17_Timebreaker",
+        "TFT17_HPTank",
+        "TFT17_APTrait"
+      ]
     },
     {
       "id": "TFT17_Pyke",
       "name": "Pyke",
       "cost": 2,
       "plannerCode": 45,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_pyke/skins/base/images/tft17_pyke_splash_tile_25.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_pyke/skins/base/images/tft17_pyke_splash_tile_25.png",
+      "traits": [
+        "TFT17_PsyOps",
+        "TFT17_FlexTrait"
+      ]
     },
     {
       "id": "TFT17_Zoe",
       "name": "Zoe",
       "cost": 2,
       "plannerCode": 65,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_zoe/skins/base/images/tft17_zoe_splash_tile_43.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_zoe/skins/base/images/tft17_zoe_splash_tile_43.png",
+      "traits": [
+        "TFT17_ADMIN",
+        "TFT17_ManaTrait"
+      ]
     },
     {
       "id": "TFT17_Aurora",
       "name": "Aurora",
       "cost": 3,
       "plannerCode": 16,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_aurora/skins/base/images/tft17_aurora_splash_tile_1.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_aurora/skins/base/images/tft17_aurora_splash_tile_1.png",
+      "traits": [
+        "TFT17_AnimaSquad",
+        "TFT17_FlexTrait"
+      ]
     },
     {
       "id": "TFT17_Diana",
       "name": "Diana",
       "cost": 3,
       "plannerCode": 67,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_diana/skins/base/images/tft17_dianasplash_mobile.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_diana/skins/base/images/tft17_dianasplash_mobile.png",
+      "traits": [
+        "TFT17_ADMIN",
+        "TFT17_ASTrait"
+      ]
     },
     {
       "id": "TFT17_Fizz",
       "name": "Fizz",
       "cost": 3,
       "plannerCode": 21,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_fizz/skins/base/images/tft17_fizz_splash_tile_26.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_fizz/skins/base/images/tft17_fizz_splash_tile_26.png",
+      "traits": [
+        "TFT17_Astronaut",
+        "TFT17_AssassinTrait"
+      ]
     },
     {
       "id": "TFT17_Illaoi",
       "name": "Illaoi",
       "cost": 3,
       "plannerCode": 17,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_illaoi/skins/base/images/tft17_illaoi_splash_tile_27.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_illaoi/skins/base/images/tft17_illaoi_splash_tile_27.png",
+      "traits": [
+        "TFT17_AnimaSquad",
+        "TFT17_ShieldTank",
+        "TFT17_SummonTrait"
+      ]
     },
     {
       "id": "TFT17_Kaisa",
       "name": "Kai'Sa",
       "cost": 3,
       "plannerCode": 32,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_kaisa/skins/base/images/tft17_kaisa_splash_tile_69.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_kaisa/skins/base/images/tft17_kaisa_splash_tile_69.png",
+      "traits": [
+        "TFT17_DarkStar",
+        "TFT17_AssassinTrait"
+      ]
     },
     {
       "id": "TFT17_Lulu",
       "name": "Lulu",
       "cost": 3,
       "plannerCode": 48,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_lulu/skins/base/images/tft17_lulu_splash_tile_14.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_lulu/skins/base/images/tft17_lulu_splash_tile_14.png",
+      "traits": [
+        "TFT17_Stargazer",
+        "TFT17_APTrait"
+      ]
     },
     {
       "id": "TFT17_Maokai",
       "name": "Maokai",
       "cost": 3,
       "plannerCode": 30,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_maokai/skins/base/images/tft17_maokai_splash_tile_33.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_maokai/skins/base/images/tft17_maokai_splash_tile_33.png",
+      "traits": [
+        "TFT17_DRX",
+        "TFT17_HPTank"
+      ]
     },
     {
       "id": "TFT17_MissFortune",
       "name": "Miss Fortune",
       "cost": 3,
       "plannerCode": 1,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_missfortune/skins/base/images/tft17_missfortune_splash_tile_16.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_missfortune/skins/base/images/tft17_missfortune_splash_tile_16.png",
+      "traits": [
+        "TFT17_MissFortuneUniqueTrait",
+        "TFT17_MissFortuneUndeterminedTrait"
+      ]
     },
     {
       "id": "TFT17_Ornn",
       "name": "Ornn",
       "cost": 3,
       "plannerCode": 54,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_ornn/skins/base/images/tft17_ornn_splash_tile_11.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_ornn/skins/base/images/tft17_ornn_splash_tile_11.png",
+      "traits": [
+        "TFT17_SpaceGroove",
+        "TFT17_ResistTank"
+      ]
     },
     {
       "id": "TFT17_Rhaast",
       "name": "Rhaast",
       "cost": 3,
       "plannerCode": 33,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_rhaast/skins/base/images/tft17_kaynsplash_tile.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_rhaast/skins/base/images/tft17_kaynsplash_tile.png",
+      "traits": [
+        "TFT17_RhaastUniqueTrait"
+      ]
     },
     {
       "id": "TFT17_Samira",
       "name": "Samira",
       "cost": 3,
       "plannerCode": 50,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_samira/skins/base/images/tft17_samira_splash_tile_10.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_samira/skins/base/images/tft17_samira_splash_tile_10.png",
+      "traits": [
+        "TFT17_SpaceGroove",
+        "TFT17_RangedTrait"
+      ]
     },
     {
       "id": "TFT17_Urgot",
       "name": "Urgot",
       "cost": 3,
       "plannerCode": 36,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_urgot/skins/base/images/tft17_urgot_splash_tile_32.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_urgot/skins/base/images/tft17_urgot_splash_tile_32.png",
+      "traits": [
+        "TFT17_Mecha",
+        "TFT17_HPTank",
+        "TFT17_MeleeTrait"
+      ]
     },
     {
       "id": "TFT17_Viktor",
       "name": "Viktor",
       "cost": 3,
       "plannerCode": 46,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_viktor/skins/base/images/tft17_viktor_splash_tile_5.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_viktor/skins/base/images/tft17_viktor_splash_tile_5.png",
+      "traits": [
+        "TFT17_PsyOps",
+        "TFT17_ManaTrait"
+      ]
     },
     {
       "id": "TFT17_AurelionSol",
       "name": "Aurelion Sol",
       "cost": 4,
       "plannerCode": 38,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_aurelionsol/skins/base/images/tft17_aurelionsol_splash_tile_2.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_aurelionsol/skins/base/images/tft17_aurelionsol_splash_tile_2.png",
+      "traits": [
+        "TFT17_Mecha",
+        "TFT17_ManaTrait"
+      ]
     },
     {
       "id": "TFT17_Corki",
       "name": "Corki",
       "cost": 4,
       "plannerCode": 25,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_corki/skins/base/images/tft17_corki_splash_tile_26.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_corki/skins/base/images/tft17_corki_splash_tile_26.png",
+      "traits": [
+        "TFT17_Astronaut",
+        "TFT17_Fateweaver"
+      ]
     },
     {
       "id": "TFT17_Karma",
       "name": "Karma",
       "cost": 4,
       "plannerCode": 34,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_karma/skins/base/images/tft17_karma_splash_tile_8.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_karma/skins/base/images/tft17_karma_splash_tile_8.png",
+      "traits": [
+        "TFT17_DarkStar",
+        "TFT17_FlexTrait"
+      ]
     },
     {
       "id": "TFT17_Kindred",
       "name": "Kindred",
       "cost": 4,
       "plannerCode": 31,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_kindred/skins/base/images/tft17_kindred_splash_tile_23.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_kindred/skins/base/images/tft17_kindred_splash_tile_23.png",
+      "traits": [
+        "TFT17_DRX",
+        "TFT17_ASTrait"
+      ]
     },
     {
       "id": "TFT17_Leblanc",
       "name": "LeBlanc",
       "cost": 4,
       "plannerCode": 68,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_leblanc/skins/base/images/tft17_leblanc_splash_tile_29.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_leblanc/skins/base/images/tft17_leblanc_splash_tile_29.png",
+      "traits": [
+        "TFT17_ADMIN",
+        "TFT17_SummonTrait"
+      ]
     },
     {
       "id": "TFT17_MasterYi",
       "name": "Master Yi",
       "cost": 4,
       "plannerCode": 47,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_masteryi/skins/base/images/tft17_masteryi_splash_tile_33.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_masteryi/skins/base/images/tft17_masteryi_splash_tile_33.png",
+      "traits": [
+        "TFT17_PsyOps",
+        "TFT17_MeleeTrait"
+      ]
     },
     {
       "id": "TFT17_Morgana",
       "name": "Morgana",
       "cost": 4,
       "plannerCode": 88,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_morgana/skins/base/images/tft17_morgana_splash_tile_50.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_morgana/skins/base/images/tft17_morgana_splash_tile_50.png",
+      "traits": [
+        "TFT17_MorganaUniqueTrait",
+        "TFT17_ManaTrait"
+      ]
     },
     {
       "id": "TFT17_Nami",
       "name": "Nami",
       "cost": 4,
       "plannerCode": 55,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_nami/skins/base/images/tft17_nami_splash_tile_41.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_nami/skins/base/images/tft17_nami_splash_tile_41.png",
+      "traits": [
+        "TFT17_SpaceGroove",
+        "TFT17_APTrait"
+      ]
     },
     {
       "id": "TFT17_Nunu",
       "name": "Nunu & Willump",
       "cost": 4,
       "plannerCode": 57,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_nunu/skins/base/images/tft17_nunu_splash_tile_35.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_nunu/skins/base/images/tft17_nunu_splash_tile_35.png",
+      "traits": [
+        "TFT17_Stargazer",
+        "TFT17_ShieldTank"
+      ]
     },
     {
       "id": "TFT17_Rammus",
       "name": "Rammus",
       "cost": 4,
       "plannerCode": 24,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_rammus/skins/base/images/tft17_rammus_splash_tile_17.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_rammus/skins/base/images/tft17_rammus_splash_tile_17.png",
+      "traits": [
+        "TFT17_Astronaut",
+        "TFT17_ResistTank"
+      ]
     },
     {
       "id": "TFT17_Riven",
       "name": "Riven",
       "cost": 4,
       "plannerCode": 60,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_riven/skins/base/images/tft17_riven_splash_tile_18.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_riven/skins/base/images/tft17_riven_splash_tile_18.png",
+      "traits": [
+        "TFT17_Timebreaker",
+        "TFT17_AssassinTrait"
+      ]
     },
     {
       "id": "TFT17_TahmKench",
       "name": "Tahm Kench",
       "cost": 4,
       "plannerCode": 79,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_tahmkench/skins/base/images/tft17_tahmkench_splash_tile_11.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_tahmkench/skins/base/images/tft17_tahmkench_splash_tile_11.png",
+      "traits": [
+        "TFT17_TahmKenchUniqueTrait",
+        "TFT17_HPTank"
+      ]
     },
     {
       "id": "TFT17_Galio",
       "name": "The Mighty Mech",
       "cost": 4,
       "plannerCode": 39,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_galio/skins/base/images/tft17_galio_mobile.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_galio/skins/base/images/tft17_galio_mobile.png",
+      "traits": [
+        "TFT17_Mecha",
+        "TFT17_FlexTrait"
+      ]
     },
     {
       "id": "TFT17_Xayah",
       "name": "Xayah",
       "cost": 4,
       "plannerCode": 63,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_xayah/skins/base/images/tft17_xayah_splash_tile_1.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_xayah/skins/base/images/tft17_xayah_splash_tile_1.png",
+      "traits": [
+        "TFT17_Stargazer",
+        "TFT17_RangedTrait"
+      ]
     },
     {
       "id": "TFT17_Bard",
       "name": "Bard",
       "cost": 5,
       "plannerCode": 28,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_bard/skins/base/images/tft17_bard_splash_tile_8.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_bard/skins/base/images/tft17_bard_splash_tile_8.png",
+      "traits": [
+        "TFT17_Astronaut",
+        "TFT17_ManaTrait"
+      ]
     },
     {
       "id": "TFT17_Blitzcrank",
       "name": "Blitzcrank",
       "cost": 5,
       "plannerCode": 56,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_blitzcrank/skins/base/images/tft17_blitzcrank_splash_tile_65.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_blitzcrank/skins/base/images/tft17_blitzcrank_splash_tile_65.png",
+      "traits": [
+        "TFT17_BlitzcrankUniqueTrait",
+        "TFT17_SpaceGroove",
+        "TFT17_ShieldTank"
+      ]
     },
     {
       "id": "TFT17_Fiora",
       "name": "Fiora",
       "cost": 5,
       "plannerCode": 19,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_fiora/skins/base/images/tft17_fiora_splash_tile_51.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_fiora/skins/base/images/tft17_fiora_splash_tile_51.png",
+      "traits": [
+        "TFT17_FioraUniqueTrait",
+        "TFT17_AnimaSquad",
+        "TFT17_MeleeTrait"
+      ]
     },
     {
       "id": "TFT17_Graves",
       "name": "Graves",
       "cost": 5,
       "plannerCode": 80,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_graves/skins/base/images/tft17_graves_splash_tile_18.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_graves/skins/base/images/tft17_graves_splash_tile_18.png",
+      "traits": [
+        "TFT17_GravesTrait"
+      ]
     },
     {
       "id": "TFT17_Jhin",
       "name": "Jhin",
       "cost": 5,
       "plannerCode": 35,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_jhin/skins/base/images/tft17_jhin_splash_tile_37.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_jhin/skins/base/images/tft17_jhin_splash_tile_37.png",
+      "traits": [
+        "TFT17_DarkStar",
+        "TFT17_JhinUniqueTrait",
+        "TFT17_RangedTrait"
+      ]
     },
     {
       "id": "TFT17_Shen",
       "name": "Shen",
       "cost": 5,
       "plannerCode": 59,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_shen/skins/base/images/tft17_shen_splash_tile_49.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_shen/skins/base/images/tft17_shen_splash_tile_49.png",
+      "traits": [
+        "TFT17_ShenUniqueTrait",
+        "TFT17_Timebreaker",
+        "TFT17_ResistTank"
+      ]
     },
     {
       "id": "TFT17_Sona",
       "name": "Sona",
       "cost": 5,
       "plannerCode": 41,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_sona/skins/base/images/tft17_sona_splash_tile_17.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_sona/skins/base/images/tft17_sona_splash_tile_17.png",
+      "traits": [
+        "TFT17_SonaUniqueTrait",
+        "TFT17_PsyOps",
+        "TFT17_SummonTrait"
+      ]
     },
     {
       "id": "TFT17_Vex",
       "name": "Vex",
       "cost": 5,
       "plannerCode": 58,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_vex/skins/base/images/tft17_vex_splash_tile_10.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_vex/skins/base/images/tft17_vex_splash_tile_10.png",
+      "traits": [
+        "TFT17_VexUniqueTrait",
+        "TFT17_Stargazer"
+      ]
     },
     {
       "id": "TFT17_Zed",
       "name": "Zed",
       "cost": 5,
       "plannerCode": 71,
-      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_zed/skins/base/images/tft17_zed_splash_tile_68.png"
+      "icon": "https://raw.communitydragon.org/latest/game/assets/characters/tft17_zed/skins/base/images/tft17_zed_splash_tile_68.png",
+      "traits": [
+        "TFT17_ZedUniqueTrait"
+      ]
+    }
+  ],
+  "traits": [
+    {
+      "id": "TFT17_ADMIN",
+      "name": "Arbiter",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_arbiter.png",
+      "breakpoints": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "TFT17_APTrait",
+      "name": "Replicator",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_replicator.png",
+      "breakpoints": [
+        2,
+        4
+      ]
+    },
+    {
+      "id": "TFT17_ASTrait",
+      "name": "Challenger",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_challenger.png",
+      "breakpoints": [
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "TFT17_AnimaSquad",
+      "name": "Anima",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_animatech.png",
+      "breakpoints": [
+        3,
+        5
+      ]
+    },
+    {
+      "id": "TFT17_AssassinTrait",
+      "name": "Rogue",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_rogue.png",
+      "breakpoints": [
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "TFT17_Astronaut",
+      "name": "Meeple",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_astronaut.png",
+      "breakpoints": [
+        3,
+        5,
+        7,
+        10
+      ]
+    },
+    {
+      "id": "TFT17_BlitzcrankUniqueTrait",
+      "name": "Party Animal",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_partyanimal.png",
+      "breakpoints": [
+        1
+      ]
+    },
+    {
+      "id": "TFT17_DRX",
+      "name": "N.O.V.A.",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_nova.png",
+      "breakpoints": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": "TFT17_DarkStar",
+      "name": "Dark Star",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_darkstar.png",
+      "breakpoints": [
+        2,
+        4,
+        6,
+        9
+      ]
+    },
+    {
+      "id": "TFT17_Fateweaver",
+      "name": "Fateweaver",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_fateweaver.png",
+      "breakpoints": [
+        2,
+        4
+      ]
+    },
+    {
+      "id": "TFT17_FioraUniqueTrait",
+      "name": "Divine Duelist",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_divineduelist.png",
+      "breakpoints": [
+        1
+      ]
+    },
+    {
+      "id": "TFT17_FlexTrait",
+      "name": "Voyager",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_voyager.png",
+      "breakpoints": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": "TFT17_GravesTrait",
+      "name": "Factory New",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_factorynew.png",
+      "breakpoints": [
+        1
+      ]
+    },
+    {
+      "id": "TFT17_HPTank",
+      "name": "Brawler",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_brawler.png",
+      "breakpoints": [
+        2,
+        4,
+        6
+      ]
+    },
+    {
+      "id": "TFT17_JhinUniqueTrait",
+      "name": "Eradicator",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_singularity.png",
+      "breakpoints": [
+        1
+      ]
+    },
+    {
+      "id": "TFT17_ManaTrait",
+      "name": "Conduit",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_channeler.png",
+      "breakpoints": [
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "TFT17_Mecha",
+      "name": "Mecha",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_mecha.png",
+      "breakpoints": [
+        3,
+        4,
+        6
+      ]
+    },
+    {
+      "id": "TFT17_MeleeTrait",
+      "name": "Marauder",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_16_slayer.png",
+      "breakpoints": [
+        2,
+        4,
+        6
+      ]
+    },
+    {
+      "id": "TFT17_MissFortuneUndeterminedTrait",
+      "name": "Choose Trait",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_missfortuneundetermindedtrait.png",
+      "breakpoints": []
+    },
+    {
+      "id": "TFT17_MissFortuneUniqueTrait",
+      "name": "Gun Goddess",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_gungoddess.png",
+      "breakpoints": [
+        1
+      ]
+    },
+    {
+      "id": "TFT17_MorganaUniqueTrait",
+      "name": "Dark Lady",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_darklady.png",
+      "breakpoints": [
+        1
+      ]
+    },
+    {
+      "id": "TFT17_Primordian",
+      "name": "Primordian",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_primordian.png",
+      "breakpoints": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "TFT17_PsyOps",
+      "name": "Psionic",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_psyops.png",
+      "breakpoints": [
+        2,
+        4
+      ]
+    },
+    {
+      "id": "TFT17_RangedTrait",
+      "name": "Sniper",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_6_sniper.png",
+      "breakpoints": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "id": "TFT17_ResistTank",
+      "name": "Bastion",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_9_bastion.png",
+      "breakpoints": [
+        2,
+        4,
+        6
+      ]
+    },
+    {
+      "id": "TFT17_RhaastUniqueTrait",
+      "name": "Redeemer",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_redeemer.png",
+      "breakpoints": [
+        1
+      ]
+    },
+    {
+      "id": "TFT17_ShenUniqueTrait",
+      "name": "Bulwark",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_bulwark.png",
+      "breakpoints": [
+        1
+      ]
+    },
+    {
+      "id": "TFT17_ShieldTank",
+      "name": "Vanguard",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_12_vanguard.png",
+      "breakpoints": [
+        2,
+        4,
+        6
+      ]
+    },
+    {
+      "id": "TFT17_SonaUniqueTrait",
+      "name": "Commander",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_commander.png",
+      "breakpoints": [
+        1
+      ]
+    },
+    {
+      "id": "TFT17_SpaceGroove",
+      "name": "Space Groove",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_spacegroove.png",
+      "breakpoints": [
+        1,
+        3,
+        5,
+        7,
+        10
+      ]
+    },
+    {
+      "id": "TFT17_Stargazer",
+      "name": "Stargazer",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_stargazer.png",
+      "breakpoints": [
+        3,
+        5,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "id": "TFT17_SummonTrait",
+      "name": "Shepherd",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_shepherd.png",
+      "breakpoints": [
+        3,
+        5,
+        7
+      ]
+    },
+    {
+      "id": "TFT17_TahmKenchUniqueTrait",
+      "name": "Oracle",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_12_arcana.png",
+      "breakpoints": [
+        1
+      ]
+    },
+    {
+      "id": "TFT17_Timebreaker",
+      "name": "Timebreaker",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_timebreaker.png",
+      "breakpoints": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "id": "TFT17_VexUniqueTrait",
+      "name": "Doomer",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_doomer.png",
+      "breakpoints": [
+        1
+      ]
+    },
+    {
+      "id": "TFT17_ZedUniqueTrait",
+      "name": "Galaxy Hunter",
+      "icon": "https://raw.communitydragon.org/latest/game/assets/ux/traiticons/trait_icon_17_galaxyhunter.png",
+      "breakpoints": [
+        1
+      ]
     }
   ]
 }

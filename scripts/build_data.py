@@ -5,7 +5,9 @@ Sources:
   - tftchampions-teamplanner.json: per-set list of champions with team_planner_code,
     character_id, display_name, tier (cost) and a square icon path.
   - cdragon/tft/en_us.json: setData[mutator == <set>].champions, used for the
-    256 px square icon (`squareIcon`) and to cross-check the cost.
+    256 px square icon (`squareIcon`) and to cross-check the cost; and
+    setData[...].traits for trait names, icons and breakpoints (effects[].minUnits).
+    Trait IDs in the team planner file match en_us trait apiNames.
 
 Only the standard sets present in the team planner file are published.
 The run fails if the validation code does not resolve completely.
@@ -119,13 +121,36 @@ def build_set(set_name, planner_entries, en_us):
             "cost": cost,
             "plannerCode": code,
             "icon": icon,
+            "traits": [t["id"] for t in entry.get("traits", []) if t.get("id")],
         })
 
     codes = [c["plannerCode"] for c in champions]
     if len(codes) != len(set(codes)):
         raise SystemExit("error: duplicate planner codes in %s" % set_name)
     champions.sort(key=lambda c: (c["cost"], c["name"], c["plannerCode"]))
-    return champions
+    return champions, build_traits(set_data, champions)
+
+
+def build_traits(set_data, champions):
+    """Traits used by this set's champions, with icon and breakpoints. Unknown traits are dropped."""
+    details = {t["apiName"]: t for t in (set_data or {}).get("traits", [])}
+    used = sorted({t for c in champions for t in c["traits"]})
+    traits = []
+    for tid in used:
+        detail = details.get(tid)
+        if detail is None:
+            print("warning: trait %s has no en_us data; dropped" % tid)
+            continue
+        breakpoints = sorted({e["minUnits"] for e in detail.get("effects", []) if e.get("minUnits")})
+        icon = game_asset_url(detail["icon"]) if detail.get("icon") else None
+        if icon is None or not url_ok(icon):
+            print("warning: trait %s icon unreachable (%s)" % (tid, icon))
+            icon = None
+        traits.append({"id": tid, "name": detail["name"], "icon": icon, "breakpoints": breakpoints})
+    known = {t["id"] for t in traits}
+    for c in champions:
+        c["traits"] = [t for t in c["traits"] if t in known]
+    return traits
 
 
 def write_if_changed(path, payload, compare_keys):
@@ -164,11 +189,14 @@ def main():
     now = datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     built = {}
     for set_name in set_names:
-        champions = build_set(set_name, planner[set_name], en_us)
+        champions, traits = build_set(set_name, planner[set_name], en_us)
         built[set_name] = champions
-        payload = {"set": set_name, "generatedAt": now, "champions": champions}
-        changed = write_if_changed(os.path.join(out, set_name, "champions.json"), payload, ["set", "champions"])
-        print("%s: %d champions%s" % (set_name, len(champions), " (updated)" if changed else " (unchanged)"))
+        payload = {"set": set_name, "generatedAt": now, "champions": champions, "traits": traits}
+        changed = write_if_changed(
+            os.path.join(out, set_name, "champions.json"), payload, ["set", "champions", "traits"]
+        )
+        print("%s: %d champions, %d traits%s" % (
+            set_name, len(champions), len(traits), " (updated)" if changed else " (unchanged)"))
 
     write_if_changed(os.path.join(out, "index.json"), {"sets": set_names, "latest": latest}, ["sets", "latest"])
     print("latest: %s" % latest)

@@ -59,6 +59,18 @@ public struct CatalogCache: Sendable {
         existing(islandIconURL(set: set, championID: championID, size: size))
     }
 
+    /// `Catalog/<set>/traits/<id>.png`: small white trait glyphs.
+    public func traitIconURL(set: String, traitID: String) -> URL {
+        let safe = traitID.replacingOccurrences(of: "/", with: "_")
+        return root.appending(path: set, directoryHint: .isDirectory)
+            .appending(path: "traits", directoryHint: .isDirectory)
+            .appending(path: "\(safe).png")
+    }
+
+    public func cachedTraitIcon(set: String, traitID: String) -> URL? {
+        existing(traitIconURL(set: set, traitID: traitID))
+    }
+
     /// True when the full icon and both island copies are on disk.
     func hasAllIcons(set: String, championID: String) -> Bool {
         cachedIcon(set: set, championID: championID) != nil
